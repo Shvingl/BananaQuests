@@ -1,0 +1,4 @@
+name: BananaQuests
+version: '${project.version}'
+main: luke.y.bananaquests.BananaQuests
+api-version: '1.20'
