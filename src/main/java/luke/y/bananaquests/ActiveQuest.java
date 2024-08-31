@@ -8,7 +8,8 @@ public class ActiveQuest {
     private int stage;
     private ArrayList<QuestObjective> currentObjectives;
 
-    public void ActiveQuest(String id) {
-
+    public void ActiveQuest(String id, int stage, ArrayList<QuestObjective> currentObjectives) {
+        this.stage = stage;
+        this.currentObjectives = currentObjectives;
     }
 }
