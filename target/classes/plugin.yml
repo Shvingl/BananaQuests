@@ -1,0 +1,4 @@
+name: BananaQuests
+version: '1.0'
+main: luke.y.bananaquests.BananaQuests
+api-version: '1.20'
