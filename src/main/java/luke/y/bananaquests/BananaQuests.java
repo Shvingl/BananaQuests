@@ -65,7 +65,7 @@ public final class BananaQuests extends JavaPlugin {
      * Save data to player.yml
      */
     public void savePlayersQuests(Player player) {
-
+        //Tohle ještě bude sranda...
     }
 
     /**
@@ -110,6 +110,7 @@ public final class BananaQuests extends JavaPlugin {
 
                     if (objectiveProgress > objectiveGoal) {
                         Bukkit.getLogger().warning(player.getName() + " má neplatný progress questu " + questID);
+                        continue;
                     }
                     objectivesToAdd.add(new QuestObjective(objectiveGoal, objectiveProgress));
 
