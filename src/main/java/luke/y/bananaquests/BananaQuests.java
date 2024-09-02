@@ -17,7 +17,7 @@ public final class BananaQuests extends JavaPlugin {
 
     private Set<String> validQuestIDs = new HashSet<>();
     private static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
-    private HashMap<String, YamlConfiguration> questConfigs;
+    private final HashMap<String, YamlConfiguration> questConfigs = new HashMap<>();
 
     public static HashMap<Player, ArrayList<ActiveQuest>> getActiveQuestsMap() {
         return activeQuestsMap;
@@ -38,11 +38,10 @@ public final class BananaQuests extends JavaPlugin {
             for (File file : new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles()) {
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
                 String questID = file.getName().replace(".yml", "");
-                Bukkit.getLogger().info(questID);
                 questConfigs.put(questID, config);
             }
         } catch (Exception e) {
-            Bukkit.getLogger().warning(Util.prefix + " Chybí quests složka!");
+            e.printStackTrace();
         }
 
         if (questConfigs != null)
@@ -85,24 +84,42 @@ public final class BananaQuests extends JavaPlugin {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
         try {
             for (String questID : config.getConfigurationSection("active").getKeys(false)) {
-                if (isValidQuestID(questID)) {
-                    ConfigurationSection questsSection = config.getConfigurationSection("active." + questID);
-                    YamlConfiguration questConfig = questConfigs.get(questID);
-                    int stage = questsSection.getInt("stage");
-                    ArrayList<QuestObjective> objectivesToAdd = new ArrayList<>();
+                if (!isValidQuestID(questID)) {
+                    Bukkit.getLogger().warning(Util.prefix + " Hráč " + player.getName() + " má v listu neplatný quest " + questID);
+                    continue;
+                }
 
-                    //questsToAdd.add(new ActiveQuest(questID, stage, ))
+                ConfigurationSection activeQuestSection = config.getConfigurationSection("active." + questID);
+
+                int stage = activeQuestSection.getInt("stage");
+                YamlConfiguration questConfig = questConfigs.get(questID);
+
+
+
+                ArrayList<QuestObjective> objectivesToAdd = new ArrayList<>();
+
+                for (String objectiveID : activeQuestSection.getConfigurationSection(".objectives-progress").getKeys(false)) {
+                    int objectiveProgress = activeQuestSection.getInt(".objectives-progress." + objectiveID);
+
+                    //one,two...
+                    ConfigurationSection objectiveSection = questConfig.getConfigurationSection("stages.stage-" + stage + ".objectives.objective-" + objectiveID);
+
+                    int objectiveGoal = objectiveSection.getInt("goal");
+
+                    objectivesToAdd.add(new QuestObjective(objectiveGoal, objectiveProgress));
+
+
                 }
-                else {
-                    Bukkit.getLogger().warning(Util.prefix + "Hráč " + player.getName() + " má v listu neplarný quest " + questID);
-                }
+                questsToAdd.add(new ActiveQuest(questID, stage, objectivesToAdd));
             }
         } catch (Exception e) {
-            Bukkit.getLogger().info(Util.prefix + " Hráč " + player.getName() + " nemá žádné aktivní questy.");
+            e.printStackTrace();
         }
 
 
         activeQuestsMap.put(player, questsToAdd);
+
+        Bukkit.getLogger().info(player.getName() + " questy: " + activeQuestsMap.get(player).toString());
     }
 
     private void createEmptyFile(File file) {

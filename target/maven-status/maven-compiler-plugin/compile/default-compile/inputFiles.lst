@@ -1,10 +1,9 @@
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\BananaQuests.java
-C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\ForceForgetQuestCommand.java
-C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMythicMobObjective.java
-C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\KillMythicMobListener.java
+C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMobObjective.java
+C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\MobKillListener.java
+C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestadminCommand.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\PlayerJoinListener.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\PlayerLeaveListener.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\QuestObjective.java
-C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\ForgetQuestCommand.java
-C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\util\Util.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\ActiveQuest.java
+C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\Util.java
