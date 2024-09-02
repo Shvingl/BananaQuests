@@ -99,12 +99,10 @@ public final class BananaQuests extends JavaPlugin {
                 ArrayList<QuestObjective> objectivesToAdd = new ArrayList<>();
 
                 for (String objectiveID : activeQuestSection.getConfigurationSection(".objectives-progress").getKeys(false)) {
+                    ConfigurationSection objectiveConfigSection = questConfig.getConfigurationSection("stages.stage-" + stage + ".objectives.objective-" + objectiveID);
                     int objectiveProgress = activeQuestSection.getInt(".objectives-progress." + objectiveID);
-
+                    int objectiveGoal = objectiveConfigSection.getInt("goal");
                     //one,two...
-                    ConfigurationSection objectiveSection = questConfig.getConfigurationSection("stages.stage-" + stage + ".objectives.objective-" + objectiveID);
-
-                    int objectiveGoal = objectiveSection.getInt("goal");
 
                     objectivesToAdd.add(new QuestObjective(objectiveGoal, objectiveProgress));
 
