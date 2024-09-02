@@ -1,6 +1,5 @@
 package luke.y.bananaquests;
 
-import luke.y.bananaquests.objective.KillMythicMobObjective;
 import luke.y.bananaquests.objective.QuestObjective;
 
 import java.util.ArrayList;
@@ -17,6 +16,10 @@ public class ActiveQuest {
         this.stage = stage;
         this.currentObjectives = currentObjectives;
     }
+    public void tryMoveToNextStage() {
+        if (allObjectivesFinished())
+            moveToNextStage();
+    }
 
     private boolean allObjectivesFinished() {
         int finishedObjectives = 0;
@@ -24,10 +27,7 @@ public class ActiveQuest {
             if (objective.isFinished())
                 finishedObjectives++;
         }
-        if (finishedObjectives >= currentObjectives.size()) {
-            return true;
-        }
-        return false;
+        return finishedObjectives >= currentObjectives.size();
     }
 
     private void moveToNextStage() {

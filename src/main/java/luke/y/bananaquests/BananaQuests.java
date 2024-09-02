@@ -14,20 +14,25 @@ import java.util.Map;
 
 public final class BananaQuests extends JavaPlugin {
 
-    ArrayList<String> validQuests;
-    private HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap;
+    ArrayList<String> validQuestIDs;
+    private static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
+
+    public static HashMap<Player, ArrayList<ActiveQuest>> getActiveQuestsMap() {
+        return activeQuestsMap;
+    }
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        activeQuestsMap = new HashMap<>();
         for (Player player : Bukkit.getOnlinePlayers()) {
             loadPlayersQuests(player);
         }
-        //Projit všechny quest .yml soubory a dát je do validQuests
+        //Projit všechny quest .yml soubory a dát je do validQuestIDs
         for (File file : new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles()) {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-            Bukkit.getLogger().info(file.getName().replace(".yml", ""));
+            String questID = file.getName().replace(".yml", "");
+            Bukkit.getLogger().info(questID);
+            validQuestIDs.add(questID);
         }
     }
 

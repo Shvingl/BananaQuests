@@ -1,7 +1,7 @@
 package luke.y.bananaquests.objective;
 
 public class QuestObjective {
-    private int goal;
+    private final int goal;
     private int progress;
 
     public boolean isFinished() {
@@ -18,7 +18,7 @@ public class QuestObjective {
     public void increaseProgress(int amount) {
         progress+=amount;
         if (progress >= goal) {
-
+            finished = true;
         }
     }
 }
