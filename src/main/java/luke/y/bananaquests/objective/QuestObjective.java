@@ -1,6 +1,7 @@
 package luke.y.bananaquests.objective;
 
 import luke.y.bananaquests.ActiveQuest;
+import org.bukkit.entity.Player;
 
 public class QuestObjective {
     private ActiveQuest owner;
@@ -26,8 +27,9 @@ public class QuestObjective {
         this.progress = progress;
     }
 
-    public void increaseProgress(int amount) {
+    public void increaseProgress(int amount, Player player) {
         progress+=amount;
+        player.sendMessage(progress + "/" + getGoal());
         if (progress >= goal) {
             finished = true;
             owner.tryMoveToNextStage();

@@ -23,7 +23,7 @@ public class MobKillListener implements Listener {
                     continue;
                 }
                 if (((KillMobObjective) questObjective).getMob().equals(e.getEntity().getType())) {
-                    killer.sendMessage("You are progressing a quest right now.");
+                    questObjective.increaseProgress(1, killer);
                 }
             }
         }
