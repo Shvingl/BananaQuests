@@ -1,9 +1,11 @@
 package luke.y.bananaquests.commands;
 
+import luke.y.bananaquests.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class QuestadminCommand implements CommandExecutor {
     @Override
@@ -24,6 +26,9 @@ public class QuestadminCommand implements CommandExecutor {
             case "startquest":
                 //Only starts quest if not started before
                 sender.sendMessage("Startquest");
+                //Add more logic here
+                //Check if args[1] is null and if sender is player
+                Util.startQuest(args[1], (Player) sender);
                 break;
             default:
                 sender.sendMessage(ChatColor.RED + "Špatný příkaz.");

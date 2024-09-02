@@ -17,13 +17,6 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
-        File playerFile = new File(plugin.getDataFolder() + "/playerdata/" + player.getName() + ".yml");
-        if (playerFile.exists()) {
-            //
-        }
-        else {
-
-        }
+        plugin.loadPlayersQuests(e.getPlayer());
     }
 }

@@ -1,0 +1,30 @@
+#Types: KillMob, KillMythicMob, BreakBlock
+display: "Example Quest"
+hint: "Talk to the Butcher to start this quest"
+stages:
+  stage-1:
+    description: "Stage 1"
+    objectives:
+      objective-1:
+        type: KillMob
+        mob: Zombie
+        goal: 10
+        description: "Kill 10 zombies"
+      objective-2:
+        type: KillMob
+        mob: Chicken
+        goal: 10
+        description: "Kill 10 chicken"
+  stage-2:
+    description: "Stage 2"
+    objectives:
+      objective-1:
+        type: KillMob
+        mob: Sheep
+        goal: 10
+        description: "Kill 10 sheep"
+      objective-2:
+        type: KillMob
+        mob: Skeleton
+        goal: 10
+        description: "Kill 10 skeletons"
