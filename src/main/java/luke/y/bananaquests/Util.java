@@ -10,6 +10,8 @@ public class Util {
      * @param id - quest id
      * @param player - player
      */
+
+    public static String prefix = "[BANANAQUESTS]";
     public static void startQuest(String id, Player player) {
         createQuest(id, 0, player);
     }

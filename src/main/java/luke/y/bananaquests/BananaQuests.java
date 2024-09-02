@@ -8,14 +8,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class BananaQuests extends JavaPlugin {
 
-    private Set<String> validQuestIDs;
+    private Set<String> validQuestIDs = new HashSet<>();
     private static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
     private HashMap<String, YamlConfiguration> questConfigs;
 
@@ -29,15 +26,20 @@ public final class BananaQuests extends JavaPlugin {
         for (Player player : Bukkit.getOnlinePlayers()) {
             loadPlayersQuests(player);
         }
-        //Projit všechny quest .yml soubory a dát je do validQuestIDs
-        for (File file : new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles()) {
-            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-            String questID = file.getName().replace(".yml", "");
-            Bukkit.getLogger().info(questID);
-            questConfigs.put(questID, config);
+        try {
+            //Projit všechny quest .yml soubory a dát je do validQuestIDs
+            for (File file : new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles()) {
+                YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+                String questID = file.getName().replace(".yml", "");
+                Bukkit.getLogger().info(questID);
+                questConfigs.put(questID, config);
+            }
+        } catch (Exception e) {
+            Bukkit.getLogger().warning(Util.prefix + " Chybí quests složka!");
         }
 
-        validQuestIDs = questConfigs.keySet();
+        if (questConfigs != null)
+            validQuestIDs = questConfigs.keySet();
     }
 
     public boolean isValidQuestID(String id) {
