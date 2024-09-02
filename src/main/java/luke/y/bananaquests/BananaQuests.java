@@ -94,6 +94,11 @@ public final class BananaQuests extends JavaPlugin {
                 int stage = activeQuestSection.getInt("stage");
                 YamlConfiguration questConfig = questConfigs.get(questID);
 
+                if (stage > questConfig.getConfigurationSection("stages").getKeys(false).size()) {
+                    Bukkit.getLogger().warning(player.getName() + " má neplatný stage questu " + questID);
+                    continue;
+                }
+
 
 
                 ArrayList<QuestObjective> objectivesToAdd = new ArrayList<>();
@@ -102,8 +107,10 @@ public final class BananaQuests extends JavaPlugin {
                     ConfigurationSection objectiveConfigSection = questConfig.getConfigurationSection("stages.stage-" + stage + ".objectives.objective-" + objectiveID);
                     int objectiveProgress = activeQuestSection.getInt(".objectives-progress." + objectiveID);
                     int objectiveGoal = objectiveConfigSection.getInt("goal");
-                    //one,two...
 
+                    if (objectiveProgress > objectiveGoal) {
+                        Bukkit.getLogger().warning(player.getName() + " má neplatný progress questu " + questID);
+                    }
                     objectivesToAdd.add(new QuestObjective(objectiveGoal, objectiveProgress));
 
 
