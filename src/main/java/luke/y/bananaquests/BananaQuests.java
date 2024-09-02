@@ -68,5 +68,6 @@ public final class BananaQuests extends JavaPlugin {
             ConfigurationSection questsSection = config.getConfigurationSection("active." + questID);
             //questsToAdd.add(new ActiveQuest(questID, questsSection.getInt("stage"), ))
         }
+        activeQuestsMap.put(player, questsToAdd);
     }
 }
