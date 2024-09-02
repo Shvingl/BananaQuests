@@ -81,17 +81,39 @@ public final class BananaQuests extends JavaPlugin {
         }
 
         ArrayList<ActiveQuest> questsToAdd = new ArrayList<>();
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
-        try {
-            for (String questID : config.getConfigurationSection("active").getKeys(false)) {
+        YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+        ConfigurationSection activeSection = playerConfig.getConfigurationSection("active");
+        List<String> finishedQuests = (List<String>) playerConfig.getList("finished");
+
+        if (finishedQuests == null || finishedQuests.isEmpty()) {
+            Bukkit.getLogger().info("Hráč " + player.getName() + " nemá žádné hotové questy.");
+        }
+        else {
+            for (String questID : finishedQuests) {
+                if (!isValidQuestID(questID)) {
+                    Bukkit.getLogger().warning(Util.prefix + " Hráč " + player.getName() + " má v listu neplatný hotový quest " + questID);
+                    continue;
+                }
+            }
+        }
+
+        if (activeSection == null || activeSection.getKeys(false).isEmpty()) {
+            Bukkit.getLogger().info("Hráč " + player.getName() + " nemá žádné aktivní questy.");
+        }
+        else {
+            for (String questID : activeSection.getKeys(false)) {
                 if (!isValidQuestID(questID)) {
                     Bukkit.getLogger().warning(Util.prefix + " Hráč " + player.getName() + " má v listu neplatný quest " + questID);
                     continue;
                 }
 
-                ConfigurationSection activeQuestSection = config.getConfigurationSection("active." + questID);
+                ConfigurationSection activeQuestSection = playerConfig.getConfigurationSection("active." + questID);
 
                 int stage = activeQuestSection.getInt("stage");
+
+                //Check if stage is null here
+
                 YamlConfiguration questConfig = questConfigs.get(questID);
 
                 if (stage > questConfig.getConfigurationSection("stages").getKeys(false).size()) {
@@ -118,13 +140,11 @@ public final class BananaQuests extends JavaPlugin {
                 }
                 questsToAdd.add(new ActiveQuest(questID, stage, objectivesToAdd));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
 
         activeQuestsMap.put(player, questsToAdd);
 
+        //Test purposes
         Bukkit.getLogger().info(player.getName() + " questy: " + activeQuestsMap.get(player).toString());
     }
 
