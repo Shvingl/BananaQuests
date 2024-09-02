@@ -12,6 +12,16 @@ public class ActiveQuest {
     private int stage;
     private ArrayList<QuestObjective> currentObjectives;
 
+    public ArrayList<QuestObjective> getCurrentObjectives() {
+        return currentObjectives;
+    }
+
+    private boolean finished;
+
+    public boolean isFinished() {
+        return finished;
+    }
+
     public ActiveQuest(String id, int stage, ArrayList<QuestObjective> currentObjectives) {
         this.stage = stage;
         this.currentObjectives = currentObjectives;

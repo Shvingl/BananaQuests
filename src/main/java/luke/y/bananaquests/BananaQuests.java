@@ -1,11 +1,16 @@
 package luke.y.bananaquests;
 
+import luke.y.bananaquests.listeners.MobKillListener;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
+import luke.y.bananaquests.objective.KillMobObjective;
 import luke.y.bananaquests.objective.QuestObjective;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,18 +21,15 @@ import java.util.*;
 public final class BananaQuests extends JavaPlugin {
 
     private Set<String> validQuestIDs = new HashSet<>();
-    private static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
+    public static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
     private final HashMap<String, YamlConfiguration> questConfigs = new HashMap<>();
-
-    public static HashMap<Player, ArrayList<ActiveQuest>> getActiveQuestsMap() {
-        return activeQuestsMap;
-    }
 
     @Override
     public void onEnable() {
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
+        getServer().getPluginManager().registerEvents(new MobKillListener(), this);
 
         // Plugin startup logic
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -44,8 +46,7 @@ public final class BananaQuests extends JavaPlugin {
             e.printStackTrace();
         }
 
-        if (questConfigs != null)
-            validQuestIDs = questConfigs.keySet();
+        validQuestIDs = questConfigs.keySet();
 
     }
 
@@ -82,9 +83,7 @@ public final class BananaQuests extends JavaPlugin {
 
         ArrayList<ActiveQuest> questsToAdd = new ArrayList<>();
         YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-
-        ConfigurationSection activeSection = playerConfig.getConfigurationSection("active");
-        List<String> finishedQuests = (List<String>) playerConfig.getList("finished");
+        ArrayList<String> finishedQuests = (ArrayList<String>) playerConfig.getList("finished");
 
         if (finishedQuests == null || finishedQuests.isEmpty()) {
             Bukkit.getLogger().info("Hráč " + player.getName() + " nemá žádné hotové questy.");
@@ -95,9 +94,14 @@ public final class BananaQuests extends JavaPlugin {
                     Bukkit.getLogger().warning(Util.prefix + " Hráč " + player.getName() + " má v listu neplatný hotový quest " + questID);
                     continue;
                 }
+
+                ActiveQuest quest = new ActiveQuest(questID, 999 /*tady asi zjistit z configu max stage??*/, null);
+                //quest.setFinished();
+                questsToAdd.add(quest);
             }
         }
 
+        ConfigurationSection activeSection = playerConfig.getConfigurationSection("active");
         if (activeSection == null || activeSection.getKeys(false).isEmpty()) {
             Bukkit.getLogger().info("Hráč " + player.getName() + " nemá žádné aktivní questy.");
         }
@@ -129,13 +133,24 @@ public final class BananaQuests extends JavaPlugin {
                     ConfigurationSection objectiveConfigSection = questConfig.getConfigurationSection("stages.stage-" + stage + ".objectives.objective-" + objectiveID);
                     int objectiveProgress = activeQuestSection.getInt(".objectives-progress." + objectiveID);
                     int objectiveGoal = objectiveConfigSection.getInt("goal");
+                    String objectiveType = objectiveConfigSection.getString("type");
 
                     if (objectiveProgress > objectiveGoal) {
-                        Bukkit.getLogger().warning(player.getName() + " má neplatný progress questu " + questID);
+                        Bukkit.getLogger().warning(player.getName() + " má neplatný progress stage " + questID+ ":" + objectiveID);
                         continue;
                     }
-                    objectivesToAdd.add(new QuestObjective(objectiveGoal, objectiveProgress));
 
+                    switch (objectiveType) {
+                        case "KillMob":
+                            EntityType mob = EntityType.fromName(objectiveConfigSection.getString("mob"));
+                            objectivesToAdd.add(new KillMobObjective(objectiveGoal, objectiveProgress, mob));
+                            break;
+                        case "BlockBreak":
+                            break;
+                        default:
+                            Bukkit.getLogger().warning("Stage " + questID + ":" + objectiveID + " hráče" + player.getName() + "má neplatný typ.");
+                            continue;
+                    }
 
                 }
                 questsToAdd.add(new ActiveQuest(questID, stage, objectivesToAdd));
