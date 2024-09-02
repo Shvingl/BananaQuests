@@ -6,4 +6,5 @@ luke\y\bananaquests\Util.class
 luke\y\bananaquests\listeners\PlayerJoinListener.class
 luke\y\bananaquests\objective\KillMobObjective.class
 luke\y\bananaquests\listeners\PlayerLeaveListener.class
+luke\y\bananaquests\commands\QuestsCommand.class
 luke\y\bananaquests\objective\QuestObjective.class

@@ -7,7 +7,6 @@ import luke.y.bananaquests.objective.QuestObjective;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.*;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 public class MobKillListener implements Listener {

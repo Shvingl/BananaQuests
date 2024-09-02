@@ -9,6 +9,12 @@ import java.util.ArrayList;
  * Must belong to a specific online player's quest list.
  */
 public class ActiveQuest {
+    private String display;
+
+    public String getDisplay() {
+        return display;
+    }
+
     private int stage;
     private ArrayList<QuestObjective> currentObjectives;
 
@@ -25,6 +31,8 @@ public class ActiveQuest {
     public ActiveQuest(String id, int stage, ArrayList<QuestObjective> currentObjectives) {
         this.stage = stage;
         this.currentObjectives = currentObjectives;
+
+        this.display = BananaQuests.questConfigs.get(id).getString("display");
     }
     public void tryMoveToNextStage() {
         if (allObjectivesFinished())

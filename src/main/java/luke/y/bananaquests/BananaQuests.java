@@ -1,5 +1,6 @@
 package luke.y.bananaquests;
 
+import luke.y.bananaquests.commands.QuestsCommand;
 import luke.y.bananaquests.listeners.MobKillListener;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
@@ -22,7 +23,7 @@ public final class BananaQuests extends JavaPlugin {
 
     private Set<String> validQuestIDs = new HashSet<>();
     public static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
-    private final HashMap<String, YamlConfiguration> questConfigs = new HashMap<>();
+    public static final HashMap<String, YamlConfiguration> questConfigs = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -30,11 +31,9 @@ public final class BananaQuests extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
         getServer().getPluginManager().registerEvents(new MobKillListener(), this);
+        getCommand("quests").setExecutor(new QuestsCommand());
 
-        // Plugin startup logic
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            loadPlayersQuests(player);
-        }
+
         try {
             //Projit všechny quest .yml soubory a dát je do validQuestIDs
             for (File file : new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles()) {
@@ -48,6 +47,9 @@ public final class BananaQuests extends JavaPlugin {
 
         validQuestIDs = questConfigs.keySet();
 
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            loadPlayersQuests(player);
+        }
     }
 
     public boolean isValidQuestID(String id) {

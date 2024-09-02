@@ -2,8 +2,12 @@ package luke.y.bananaquests;
 
 import org.bukkit.entity.Player;
 
+import java.io.File;
+
 
 public class Util {
+    public static String prefix = "[BANANAQUESTS]";
+
     /**
      * Creates an instance of the ActiveQuest class and
      * puts it in the map of player's active quests.
@@ -11,7 +15,6 @@ public class Util {
      * @param player - player
      */
 
-    public static String prefix = "[BANANAQUESTS]";
     public static void startQuest(String id, Player player) {
         createQuest(id, 0, player);
     }
@@ -20,4 +23,6 @@ public class Util {
 
         //new ActiveQuest(id, 0, )
     }
+
+
 }
