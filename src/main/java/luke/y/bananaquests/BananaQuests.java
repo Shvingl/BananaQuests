@@ -97,7 +97,7 @@ public final class BananaQuests extends JavaPlugin {
                     continue;
                 }
 
-                ActiveQuest quest = new ActiveQuest(questID, 999 /*tady asi zjistit z configu max stage??*/, null);
+                ActiveQuest quest = new ActiveQuest(questID, player, 999 /*tady asi zjistit z configu max stage??*/, null);
                 //quest.setFinished();
                 questsToAdd.add(quest);
             }
@@ -155,7 +155,7 @@ public final class BananaQuests extends JavaPlugin {
                     }
 
                 }
-                questsToAdd.add(new ActiveQuest(questID, stage, objectivesToAdd));
+                questsToAdd.add(new ActiveQuest(questID, player, stage, objectivesToAdd));
             }
         }
 
