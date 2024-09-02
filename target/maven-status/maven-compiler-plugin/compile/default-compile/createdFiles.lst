@@ -1,10 +1,9 @@
 luke\y\bananaquests\ActiveQuest.class
+luke\y\bananaquests\commands\QuestadminCommand.class
+luke\y\bananaquests\listeners\MobKillListener.class
 luke\y\bananaquests\BananaQuests.class
-luke\y\bananaquests\listeners\KillMythicMobListener.class
-luke\y\bananaquests\commands\ForceForgetQuestCommand.class
-luke\y\bananaquests\util\Util.class
+luke\y\bananaquests\Util.class
 luke\y\bananaquests\listeners\PlayerJoinListener.class
-luke\y\bananaquests\commands\ForgetQuestCommand.class
+luke\y\bananaquests\objective\KillMobObjective.class
 luke\y\bananaquests\listeners\PlayerLeaveListener.class
-luke\y\bananaquests\objective\KillMythicMobObjective.class
 luke\y\bananaquests\objective\QuestObjective.class

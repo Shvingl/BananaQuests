@@ -1,5 +1,7 @@
 package luke.y.bananaquests;
 
+import luke.y.bananaquests.listeners.PlayerJoinListener;
+import luke.y.bananaquests.listeners.PlayerLeaveListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -22,6 +24,10 @@ public final class BananaQuests extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
+
         // Plugin startup logic
         for (Player player : Bukkit.getOnlinePlayers()) {
             loadPlayersQuests(player);
