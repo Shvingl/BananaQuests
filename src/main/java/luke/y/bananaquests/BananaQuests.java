@@ -2,6 +2,7 @@ package luke.y.bananaquests;
 
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
+import luke.y.bananaquests.objective.QuestObjective;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -46,6 +47,7 @@ public final class BananaQuests extends JavaPlugin {
 
         if (questConfigs != null)
             validQuestIDs = questConfigs.keySet();
+
     }
 
     public boolean isValidQuestID(String id) {
@@ -73,22 +75,42 @@ public final class BananaQuests extends JavaPlugin {
      * player quest map.
      */
     public void loadPlayersQuests(Player player) {
+
         File playerFile = new File(this.getDataFolder().getAbsoluteFile() + File.separator + "playerdata" + File.separator + player.getName() + ".yml");
         if (!playerFile.exists()) {
-            YamlConfiguration empty = new YamlConfiguration();
-            try {
-                empty.save(playerFile);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return;
+            createEmptyFile(playerFile);
         }
+
         ArrayList<ActiveQuest> questsToAdd = new ArrayList<>();
         YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
-        for (String questID : config.getConfigurationSection("active").getKeys(false)) {
-            ConfigurationSection questsSection = config.getConfigurationSection("active." + questID);
-            //questsToAdd.add(new ActiveQuest(questID, questsSection.getInt("stage"), ))
+        try {
+            for (String questID : config.getConfigurationSection("active").getKeys(false)) {
+                if (isValidQuestID(questID)) {
+                    ConfigurationSection questsSection = config.getConfigurationSection("active." + questID);
+                    YamlConfiguration questConfig = questConfigs.get(questID);
+                    int stage = questsSection.getInt("stage");
+                    ArrayList<QuestObjective> objectivesToAdd = new ArrayList<>();
+
+                    //questsToAdd.add(new ActiveQuest(questID, stage, ))
+                }
+                else {
+                    Bukkit.getLogger().warning(Util.prefix + "Hráč " + player.getName() + " má v listu neplarný quest " + questID);
+                }
+            }
+        } catch (Exception e) {
+            Bukkit.getLogger().info(Util.prefix + " Hráč " + player.getName() + " nemá žádné aktivní questy.");
         }
+
+
         activeQuestsMap.put(player, questsToAdd);
+    }
+
+    private void createEmptyFile(File file) {
+        YamlConfiguration empty = new YamlConfiguration();
+        try {
+            empty.save(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
