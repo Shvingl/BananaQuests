@@ -11,11 +11,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public final class BananaQuests extends JavaPlugin {
 
-    ArrayList<String> validQuestIDs;
+    private Set<String> validQuestIDs;
     private static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
+    private HashMap<String, YamlConfiguration> questConfigs;
 
     public static HashMap<Player, ArrayList<ActiveQuest>> getActiveQuestsMap() {
         return activeQuestsMap;
@@ -32,8 +34,14 @@ public final class BananaQuests extends JavaPlugin {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
             String questID = file.getName().replace(".yml", "");
             Bukkit.getLogger().info(questID);
-            validQuestIDs.add(questID);
+            questConfigs.put(questID, config);
         }
+
+        validQuestIDs = questConfigs.keySet();
+    }
+
+    public boolean isValidQuestID(String id) {
+        return validQuestIDs.contains(id);
     }
 
     @Override
