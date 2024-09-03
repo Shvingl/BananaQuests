@@ -24,10 +24,10 @@ public class QuestObjective {
 
     private boolean finished;
 
-    public QuestObjective(String questID, int goal, int progress) {
+    public QuestObjective(String desc, int goal, int progress) {
+        this.description = desc;
         this.goal = goal;
         this.progress = progress;
-        this.description = "Test";
     }
 
     public void increaseProgress(int amount, Player player) {

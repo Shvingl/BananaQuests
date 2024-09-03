@@ -12,6 +12,11 @@ import java.util.ArrayList;
  */
 public class ActiveQuest {
     private String id;
+
+    public String getId() {
+        return id;
+    }
+
     private Player owner;
 
     public Player getOwner() {
@@ -25,6 +30,11 @@ public class ActiveQuest {
     }
 
     private int stage;
+
+    public int getStage() {
+        return stage;
+    }
+
     private ArrayList<QuestObjective> currentObjectives;
 
     public ArrayList<QuestObjective> getCurrentObjectives() {

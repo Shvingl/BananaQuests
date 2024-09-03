@@ -12,8 +12,8 @@ public class KillMobObjective extends QuestObjective{
         return mob;
     }
 
-    public KillMobObjective(String questID, int goal, int progress, EntityType mob) {
-        super(questID, goal, progress);
+    public KillMobObjective(String desc, int goal, int progress, EntityType mob) {
+        super(desc, goal, progress);
         this.mob = mob;
     }
 }
