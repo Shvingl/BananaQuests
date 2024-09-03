@@ -1,12 +1,14 @@
 package luke.y.bananaquests.objective;
 
 import luke.y.bananaquests.ActiveQuest;
+import luke.y.bananaquests.BananaQuests;
 import org.bukkit.entity.Player;
 
 public class QuestObjective {
     private ActiveQuest owner;
     private final int goal;
     private int progress;
+    private String description;
 
     public int getGoal() {
         return goal;
@@ -22,14 +24,15 @@ public class QuestObjective {
 
     private boolean finished;
 
-    public QuestObjective(int goal, int progress) {
+    public QuestObjective(String questID, int goal, int progress) {
         this.goal = goal;
         this.progress = progress;
+        this.description = "Test";
     }
 
     public void increaseProgress(int amount, Player player) {
         progress+=amount;
-        player.sendMessage(progress + "/" + getGoal());
+        player.sendMessage(description + " " + progress + "/" + getGoal());
         if (progress >= goal) {
             finished = true;
             owner.tryMoveToNextStage();

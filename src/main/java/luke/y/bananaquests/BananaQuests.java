@@ -145,7 +145,7 @@ public final class BananaQuests extends JavaPlugin {
                     switch (objectiveType) {
                         case "KillMob":
                             EntityType mob = EntityType.fromName(objectiveConfigSection.getString("mob"));
-                            objectivesToAdd.add(new KillMobObjective(objectiveGoal, objectiveProgress, mob));
+                            objectivesToAdd.add(new KillMobObjective(questID, objectiveGoal, objectiveProgress, mob));
                             break;
                         case "BlockBreak":
                             break;

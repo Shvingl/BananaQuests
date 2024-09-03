@@ -19,9 +19,10 @@ public class MobKillListener implements Listener {
             if (activeQuest.isFinished())
                 return;
             for (QuestObjective questObjective : activeQuest.getCurrentObjectives()) {
-                if (!questObjective.getClass().equals(KillMobObjective.class)) {
+                if (!questObjective.getClass().equals(KillMobObjective.class))
                     continue;
-                }
+                if (questObjective.isFinished())
+                    continue;
                 if (((KillMobObjective) questObjective).getMob().equals(e.getEntity().getType())) {
                     questObjective.increaseProgress(1, killer);
                 }

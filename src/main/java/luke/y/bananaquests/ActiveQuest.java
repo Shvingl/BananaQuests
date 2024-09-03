@@ -1,6 +1,7 @@
 package luke.y.bananaquests;
 
 import luke.y.bananaquests.objective.QuestObjective;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
  * Must belong to a specific online player's quest list.
  */
 public class ActiveQuest {
+    private String id;
     private Player owner;
 
     public Player getOwner() {
@@ -36,6 +38,7 @@ public class ActiveQuest {
     }
 
     public ActiveQuest(String id, Player owner, int stage, ArrayList<QuestObjective> currentObjectives) {
+        this.id = id;
         this.stage = stage;
         this.owner = owner;
         this.currentObjectives = currentObjectives;
@@ -67,8 +70,11 @@ public class ActiveQuest {
     }
 
     private void moveToNextStage() {
+        owner.sendMessage("Moving to next stage...");
         stage++;
         currentObjectives.clear();
+        YamlConfiguration config = BananaQuests.questConfigs.get(id);
+
         //currentObjectives.add();
     }
 }
