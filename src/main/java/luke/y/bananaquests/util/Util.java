@@ -1,8 +1,6 @@
-package luke.y.bananaquests;
+package luke.y.bananaquests.util;
 
 import org.bukkit.entity.Player;
-
-import java.io.File;
 
 
 public class Util {

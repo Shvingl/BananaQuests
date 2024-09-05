@@ -2,10 +2,11 @@ luke\y\bananaquests\ActiveQuest.class
 luke\y\bananaquests\commands\QuestadminCommand.class
 luke\y\bananaquests\listeners\MobKillListener.class
 luke\y\bananaquests\BananaQuests.class
-luke\y\bananaquests\Util.class
+luke\y\bananaquests\util\Util.class
 luke\y\bananaquests\objective\KillMobObjective.class
 luke\y\bananaquests\objective\RegionEnterObjective.class
 luke\y\bananaquests\listeners\PlayerJoinListener.class
 luke\y\bananaquests\listeners\PlayerLeaveListener.class
 luke\y\bananaquests\commands\QuestsCommand.class
+luke\y\bananaquests\util\Gui.class
 luke\y\bananaquests\objective\QuestObjective.class

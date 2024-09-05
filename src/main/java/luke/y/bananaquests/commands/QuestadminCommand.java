@@ -1,6 +1,6 @@
 package luke.y.bananaquests.commands;
 
-import luke.y.bananaquests.Util;
+import luke.y.bananaquests.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

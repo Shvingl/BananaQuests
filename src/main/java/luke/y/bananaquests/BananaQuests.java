@@ -4,14 +4,11 @@ import luke.y.bananaquests.commands.QuestsCommand;
 import luke.y.bananaquests.listeners.MobKillListener;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
-import luke.y.bananaquests.objective.KillMobObjective;
 import luke.y.bananaquests.objective.QuestObjective;
+import luke.y.bananaquests.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,20 +28,15 @@ public final class BananaQuests extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
         getServer().getPluginManager().registerEvents(new MobKillListener(), this);
-        getCommand("quests").setExecutor(new QuestsCommand());
+        Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestsCommand());
 
 
-        try {
-            //Projit všechny quest .yml soubory a dát je do validQuestIDs
-            for (File file : new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles()) {
-                YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-                String questID = file.getName().replace(".yml", "");
-                questConfigs.put(questID, config);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        //Projit všechny quest .yml soubory a dát je do validQuestIDs
+        for (File file : new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles()) {
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+            String questID = file.getName().replace(".yml", "");
+            questConfigs.put(questID, config);
         }
-
         validQuestIDs = questConfigs.keySet();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -52,8 +44,8 @@ public final class BananaQuests extends JavaPlugin {
         }
     }
 
-    public boolean isValidQuestID(String id) {
-        return validQuestIDs.contains(id);
+    public boolean isInvalidQuestID(String id) {
+        return !validQuestIDs.contains(id);
     }
 
     @Override
@@ -92,7 +84,7 @@ public final class BananaQuests extends JavaPlugin {
         }
         else {
             for (String questID : finishedQuests) {
-                if (!isValidQuestID(questID)) {
+                if (isInvalidQuestID(questID)) {
                     Bukkit.getLogger().warning(Util.prefix + " Hráč " + player.getName() + " má v listu neplatný hotový quest " + questID);
                     continue;
                 }
@@ -109,12 +101,15 @@ public final class BananaQuests extends JavaPlugin {
         }
         else {
             for (String questID : activeSection.getKeys(false)) {
-                if (!isValidQuestID(questID)) {
+                if (isInvalidQuestID(questID)) {
                     Bukkit.getLogger().warning(Util.prefix + " Hráč " + player.getName() + " má v listu neplatný quest " + questID);
                     continue;
                 }
 
                 ConfigurationSection activeQuestSection = playerConfig.getConfigurationSection("active." + questID);
+
+                if (activeQuestSection == null)
+                    continue;
 
                 int stage = activeQuestSection.getInt("stage");
 

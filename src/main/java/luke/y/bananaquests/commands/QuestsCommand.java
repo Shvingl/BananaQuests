@@ -2,6 +2,7 @@ package luke.y.bananaquests.commands;
 
 import luke.y.bananaquests.ActiveQuest;
 import luke.y.bananaquests.BananaQuests;
+import luke.y.bananaquests.util.Gui;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,8 +16,7 @@ public class QuestsCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
         for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
-            player.sendMessage("Tvé questy:");
-            player.sendMessage(activeQuest.getDisplay());
+            Gui.openActiveQuestsGUI(player);
         }
         return false;
     }
