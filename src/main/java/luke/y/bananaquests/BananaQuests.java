@@ -128,34 +128,14 @@ public final class BananaQuests extends JavaPlugin {
                 }
 
 
-
+                ArrayList<Integer> objectivesProgress = new ArrayList<>();
                 ArrayList<QuestObjective> objectivesToAdd = new ArrayList<>();
 
                 for (String objectiveID : activeQuestSection.getConfigurationSection(".objectives-progress").getKeys(false)) {
-                    ConfigurationSection objectiveConfigSection = questConfig.getConfigurationSection("stages.stage-" + stage + ".objectives.objective-" + objectiveID);
                     int objectiveProgress = activeQuestSection.getInt(".objectives-progress." + objectiveID);
-                    int objectiveGoal = objectiveConfigSection.getInt("goal");
-                    String objectiveType = objectiveConfigSection.getString("type");
-
-                    if (objectiveProgress > objectiveGoal) {
-                        Bukkit.getLogger().warning(player.getName() + " má neplatný progress stage " + questID+ ":" + objectiveID);
-                        continue;
-                    }
-
-                    switch (objectiveType) {
-                        case "KillMob":
-                            EntityType mob = EntityType.fromName(objectiveConfigSection.getString("mob"));
-                            objectivesToAdd.add(new KillMobObjective(questID, objectiveGoal, objectiveProgress, mob));
-                            break;
-                        case "BlockBreak":
-                            break;
-                        default:
-                            Bukkit.getLogger().warning("Stage " + questID + ":" + objectiveID + " hráče" + player.getName() + "má neplatný typ.");
-                            continue;
-                    }
-
+                    objectivesProgress.add(objectiveProgress);
                 }
-                questsToAdd.add(new ActiveQuest(questID, player, stage, objectivesToAdd));
+                questsToAdd.add(new ActiveQuest(questID, player, stage, objectivesProgress));
             }
         }
 

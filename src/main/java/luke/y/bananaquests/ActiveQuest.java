@@ -1,7 +1,11 @@
 package luke.y.bananaquests;
 
+import luke.y.bananaquests.objective.KillMobObjective;
 import luke.y.bananaquests.objective.QuestObjective;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -35,7 +39,7 @@ public class ActiveQuest {
         return stage;
     }
 
-    private ArrayList<QuestObjective> currentObjectives;
+    private final ArrayList<QuestObjective> currentObjectives = new ArrayList<>();
 
     public ArrayList<QuestObjective> getCurrentObjectives() {
         return currentObjectives;
@@ -47,13 +51,14 @@ public class ActiveQuest {
         return finished;
     }
 
-    public ActiveQuest(String id, Player owner, int stage, ArrayList<QuestObjective> currentObjectives) {
+    public ActiveQuest(String id, Player owner, int stage, ArrayList<Integer> progress) {
         this.id = id;
         this.stage = stage;
         this.owner = owner;
-        this.currentObjectives = currentObjectives;
 
         this.display = BananaQuests.questConfigs.get(id).getString("display");
+
+        initializeObjectives(progress);
 
         for (QuestObjective questObjective : currentObjectives) {
             questObjective.setOwner(this);
@@ -83,8 +88,53 @@ public class ActiveQuest {
         owner.sendMessage("Moving to next stage...");
         stage++;
         currentObjectives.clear();
-        YamlConfiguration config = BananaQuests.questConfigs.get(id);
+        if (stage > BananaQuests.questConfigs.get(id).getConfigurationSection("stages").getKeys(false).size()) {
+            owner.sendMessage("You have finished this quest!!!");
+            return;
+        }
 
-        //currentObjectives.add();
+        initializeObjectives(new ArrayList<>());
+    }
+
+    public void initializeObjectives(ArrayList<Integer> progress) {
+        int progressLength = progress.size();
+        YamlConfiguration questConfig = BananaQuests.questConfigs.get(id);
+        for (int i = 0; i < questConfig.getConfigurationSection("stages.stage-" + stage + ".objectives").getKeys(false).size(); i++) {
+            int objectiveID = i+1;
+            ConfigurationSection objectiveConfigSection = questConfig.getConfigurationSection("stages.stage-" + stage + ".objectives.objective-" + objectiveID);
+            int objectiveProgress;
+
+            if (progressLength <= i) {
+                objectiveProgress = 0;
+            }
+            else {
+                objectiveProgress = progress.get(i);
+            }
+
+            //Values from quest's .yml
+            int objectiveGoal = objectiveConfigSection.getInt("goal");
+            String objectiveDescription = objectiveConfigSection.getString("description");
+            String objectiveType = objectiveConfigSection.getString("type");
+
+            if (objectiveProgress > objectiveGoal) {
+                Bukkit.getLogger().warning(owner.getName() + " má neplatný progress stage " + id+ ":" + objectiveID);
+                continue;
+            }
+
+            switch (objectiveType) {
+                case "KillMob":
+                    EntityType mob = EntityType.fromName(objectiveConfigSection.getString("mob"));
+                    currentObjectives.add(new KillMobObjective(objectiveDescription, objectiveGoal, objectiveProgress, mob));
+                    break;
+                case "BlockBreak":
+                    break;
+                default:
+                    Bukkit.getLogger().warning("Stage " + id + ":" + objectiveID+ " hráče" + owner.getName() + "má neplatný typ.");
+                    continue;
+            }
+        }
+        for (QuestObjective questObjective : currentObjectives) {
+            questObjective.setOwner(this);
+        }
     }
 }
