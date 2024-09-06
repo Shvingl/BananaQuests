@@ -47,6 +47,10 @@ public class ActiveQuest {
 
     private boolean finished;
 
+    public void setFinished() {
+        this.finished = true;
+    }
+
     public boolean isFinished() {
         return finished;
     }
@@ -90,6 +94,7 @@ public class ActiveQuest {
         currentObjectives.clear();
         if (stage > BananaQuests.questConfigs.get(id).getConfigurationSection("stages").getKeys(false).size()) {
             owner.sendMessage("You have finished this quest!!!");
+            finished = true;
             return;
         }
 

@@ -1,6 +1,7 @@
 package luke.y.bananaquests;
 
 import luke.y.bananaquests.commands.QuestsCommand;
+import luke.y.bananaquests.listeners.InventoryClickListener;
 import luke.y.bananaquests.listeners.MobKillListener;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
@@ -18,7 +19,7 @@ import java.util.*;
 
 public final class BananaQuests extends JavaPlugin {
 
-    private Set<String> validQuestIDs = new HashSet<>();
+    public static Set<String> validQuestIDs = new HashSet<>();
     public static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
     public static final HashMap<String, YamlConfiguration> questConfigs = new HashMap<>();
 
@@ -27,7 +28,10 @@ public final class BananaQuests extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+
         getServer().getPluginManager().registerEvents(new MobKillListener(), this);
+
         Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestsCommand());
 
 
@@ -90,7 +94,7 @@ public final class BananaQuests extends JavaPlugin {
                 }
 
                 ActiveQuest quest = new ActiveQuest(questID, player, 999 /*tady asi zjistit z configu max stage??*/, null);
-                //quest.setFinished();
+                quest.setFinished();
                 questsToAdd.add(quest);
             }
         }
@@ -124,7 +128,6 @@ public final class BananaQuests extends JavaPlugin {
 
 
                 ArrayList<Integer> objectivesProgress = new ArrayList<>();
-                ArrayList<QuestObjective> objectivesToAdd = new ArrayList<>();
 
                 for (String objectiveID : activeQuestSection.getConfigurationSection(".objectives-progress").getKeys(false)) {
                     int objectiveProgress = activeQuestSection.getInt(".objectives-progress." + objectiveID);
