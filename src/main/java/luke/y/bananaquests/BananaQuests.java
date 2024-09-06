@@ -1,5 +1,6 @@
 package luke.y.bananaquests;
 
+import luke.y.bananaquests.commands.QuestadminCommand;
 import luke.y.bananaquests.commands.QuestsCommand;
 import luke.y.bananaquests.listeners.InventoryClickListener;
 import luke.y.bananaquests.listeners.MobKillListener;
@@ -8,6 +9,7 @@ import luke.y.bananaquests.listeners.PlayerLeaveListener;
 import luke.y.bananaquests.objective.QuestObjective;
 import luke.y.bananaquests.util.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -33,6 +35,7 @@ public final class BananaQuests extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MobKillListener(), this);
 
         Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestsCommand());
+        Objects.requireNonNull(getCommand("questadmin")).setExecutor(new QuestadminCommand());
 
 
         //Projit všechny quest .yml soubory a dát je do validQuestIDs
@@ -93,8 +96,7 @@ public final class BananaQuests extends JavaPlugin {
                     continue;
                 }
 
-                ActiveQuest quest = new ActiveQuest(questID, player, 999 /*tady asi zjistit z configu max stage??*/, null);
-                quest.setFinished();
+                ActiveQuest quest = new ActiveQuest(questID, player, 999 /*tady asi zjistit z configu max stage??*/, null, true);
                 questsToAdd.add(quest);
             }
         }
@@ -133,7 +135,7 @@ public final class BananaQuests extends JavaPlugin {
                     int objectiveProgress = activeQuestSection.getInt(".objectives-progress." + objectiveID);
                     objectivesProgress.add(objectiveProgress);
                 }
-                questsToAdd.add(new ActiveQuest(questID, player, stage, objectivesProgress));
+                questsToAdd.add(new ActiveQuest(questID, player, stage, objectivesProgress, false));
             }
         }
 
@@ -141,6 +143,14 @@ public final class BananaQuests extends JavaPlugin {
 
         //Test purposes
         Bukkit.getLogger().info(player.getName() + " questy: " + activeQuestsMap.get(player).toString());
+    }
+
+    public static void beginQuest(String id, Player player) {
+        ArrayList<ActiveQuest> questList = activeQuestsMap.get(player);
+        ActiveQuest newQuest = new ActiveQuest(id, player, 1, new ArrayList<>(), false);
+        questList.add(newQuest);
+        player.sendMessage(ChatColor.GREEN + "Začal jsi quest " + newQuest.getDisplay());
+        activeQuestsMap.put(player, questList);
     }
 
     private void createEmptyFile(File file) {

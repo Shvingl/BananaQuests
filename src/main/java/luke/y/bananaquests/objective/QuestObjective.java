@@ -10,6 +10,10 @@ public class QuestObjective {
     private int progress;
     private String description;
 
+    public String getDescription() {
+        return description;
+    }
+
     public int getGoal() {
         return goal;
     }

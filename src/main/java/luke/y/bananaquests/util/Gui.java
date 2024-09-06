@@ -34,23 +34,28 @@ public class Gui {
         activeButtonMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + activeTitle.toUpperCase());
         activeButton.setItemMeta(activeButtonMeta);
         inventory.setItem(9*2-1, activeButton);
-
-        ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
-        ItemMeta questItemMeta = questItem.getItemMeta();
+        
 
         for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
             if (!activeQuest.isFinished()) {
-                questItemMeta.setDisplayName(activeQuest.getDisplay());
-                ArrayList<String> lore = new ArrayList<>();
-                for (QuestObjective objective : activeQuest.getCurrentObjectives()) {
-                    lore.add("- " + objective.getDescription() + " " + objective.getProgress() + "/" + objective.getGoal());
-                }
-                questItemMeta.setLore(lore);
-                questItem.setItemMeta(questItemMeta);
+                ItemStack questItem = getItemStack(activeQuest);
                 inventory.addItem(questItem);
             }
         }
         player.openInventory(inventory);
+    }
+
+    private static ItemStack getItemStack(ActiveQuest activeQuest) {
+        ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
+        ItemMeta questItemMeta = questItem.getItemMeta();
+        questItemMeta.setDisplayName(activeQuest.getDisplay());
+        ArrayList<String> lore = new ArrayList<>();
+        for (QuestObjective objective : activeQuest.getCurrentObjectives()) {
+            lore.add(ChatColor.GRAY + "● " + objective.getDescription() + " " + objective.getProgress() + "/" + objective.getGoal());
+        }
+        questItemMeta.setLore(lore);
+        questItem.setItemMeta(questItemMeta);
+        return questItem;
     }
 
     public static void openFinishedQuestsGUI(Player player) {
@@ -112,7 +117,7 @@ public class Gui {
         Inventory gui = Bukkit.createInventory(player, 9*5);
         ItemStack emptyButton = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta emptyButtonMeta = emptyButton.getItemMeta();
-        emptyButtonMeta.setDisplayName("");
+        emptyButtonMeta.setDisplayName(ChatColor.GRAY + " ");
         emptyButton.setItemMeta(emptyButtonMeta);
         ItemStack activeButton = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemStack finishedButton = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);

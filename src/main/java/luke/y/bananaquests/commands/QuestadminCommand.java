@@ -1,5 +1,6 @@
 package luke.y.bananaquests.commands;
 
+import luke.y.bananaquests.BananaQuests;
 import luke.y.bananaquests.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,11 +25,12 @@ public class QuestadminCommand implements CommandExecutor {
                 sender.sendMessage("Forcestartquest");
                 break;
             case "startquest":
-                //Only starts quest if not started before
                 sender.sendMessage("Startquest");
-                //Add more logic here
-                //Check if args[1] is null and if sender is player
-                Util.startQuest(args[1], (Player) sender);
+                //Only starts quest if not started before
+                if (BananaQuests.validQuestIDs.contains(args[1]))
+                    BananaQuests.beginQuest(args[1], (Player) sender);
+                else
+                    sender.sendMessage("Error");
                 break;
             default:
                 sender.sendMessage(ChatColor.RED + "Špatný příkaz.");
