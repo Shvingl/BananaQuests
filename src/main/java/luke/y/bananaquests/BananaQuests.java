@@ -3,10 +3,10 @@ package luke.y.bananaquests;
 import luke.y.bananaquests.commands.QuestadminCommand;
 import luke.y.bananaquests.commands.QuestsCommand;
 import luke.y.bananaquests.listeners.InventoryClickListener;
-import luke.y.bananaquests.listeners.MobKillListener;
+import luke.y.bananaquests.listeners.objectivelisteners.MobKillListener;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
-import luke.y.bananaquests.objective.QuestObjective;
+import luke.y.bananaquests.listeners.objectivelisteners.MythicMobKillListener;
 import luke.y.bananaquests.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,6 +33,7 @@ public final class BananaQuests extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
 
         getServer().getPluginManager().registerEvents(new MobKillListener(), this);
+        getServer().getPluginManager().registerEvents(new MythicMobKillListener(), this);
 
         Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestsCommand());
         Objects.requireNonNull(getCommand("questadmin")).setExecutor(new QuestadminCommand());

@@ -6,7 +6,7 @@ import javax.swing.text.html.parser.Entity;
 
 public class KillMobObjective extends QuestObjective{
 
-    private EntityType mob;
+    private final EntityType mob;
 
     public EntityType getMob() {
         return mob;
