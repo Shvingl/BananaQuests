@@ -50,10 +50,6 @@ public class ActiveQuest {
 
     private boolean finished;
 
-    public void setFinished() {
-        this.finished = true;
-    }
-
     public boolean isFinished() {
         return finished;
     }

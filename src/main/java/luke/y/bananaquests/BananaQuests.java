@@ -142,11 +142,33 @@ public final class BananaQuests extends JavaPlugin {
         activeQuestsMap.put(player, questsToAdd);
 
         //Test purposes
-        Bukkit.getLogger().info(player.getName() + " questy: " + activeQuestsMap.get(player).toString());
+        Bukkit.getLogger().info(player.getName() + " questy: ");
+        for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
+            Bukkit.getLogger().info(activeQuest.getId() + " finished: " + activeQuest.isFinished());
+        }
+    }
+
+    public static void forceBeginQuest(String id, Player player) {
+        if (!validQuestIDs.contains(id)) {
+            player.sendMessage(ChatColor.RED + "Plugin se ti pokusil odstartovat neexistujicí quest. Napiš to adminovi s aktuálním časem.");
+            return;
+        }
+
     }
 
     public static void beginQuest(String id, Player player) {
+        if (!validQuestIDs.contains(id)) {
+            player.sendMessage(ChatColor.RED + "Plugin se ti pokusil odstartovat neexistujicí quest. Napiš to adminovi s aktuálním časem.");
+            return;
+        }
         ArrayList<ActiveQuest> questList = activeQuestsMap.get(player);
+        for (ActiveQuest activeQuest : questList) {
+            if (activeQuest.getId().equalsIgnoreCase(id)) {
+                player.sendMessage(ChatColor.RED + "Tento quest už je aktivní.");
+                return;
+            }
+        }
+
         ActiveQuest newQuest = new ActiveQuest(id, player, 1, new ArrayList<>(), false);
         questList.add(newQuest);
         player.sendMessage(ChatColor.GREEN + "Začal jsi quest " + newQuest.getDisplay());
