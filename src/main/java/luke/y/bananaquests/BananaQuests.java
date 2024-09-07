@@ -7,6 +7,7 @@ import luke.y.bananaquests.listeners.objectivelisteners.MobKillListener;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
 import luke.y.bananaquests.listeners.objectivelisteners.MythicMobKillListener;
+import luke.y.bananaquests.listeners.objectivelisteners.OutpostFreeListener;
 import luke.y.bananaquests.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,6 +35,7 @@ public final class BananaQuests extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new MobKillListener(), this);
         getServer().getPluginManager().registerEvents(new MythicMobKillListener(), this);
+        getServer().getPluginManager().registerEvents(new OutpostFreeListener(), this);
 
         Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestsCommand());
         Objects.requireNonNull(getCommand("questadmin")).setExecutor(new QuestadminCommand());

@@ -3,6 +3,7 @@ package luke.y.bananaquests;
 import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.MobType;
+import luke.y.bananaquests.objective.FreeOutpostObjective;
 import luke.y.bananaquests.objective.KillMobObjective;
 import luke.y.bananaquests.objective.KillMythicMobObjective;
 import luke.y.bananaquests.objective.QuestObjective;
@@ -146,6 +147,11 @@ public class ActiveQuest {
                     case "KillMythicMob":
                         MythicMob mythicMob = MythicBukkit.inst().getMobManager().getMythicMob(objectiveConfigSection.getString("mythicMob")).orElse(null);
                         currentObjectives.add(new KillMythicMobObjective(objectiveDescription, objectiveGoal, objectiveProgress, mythicMob));
+                        break;
+                    case "FreeOutpost":
+                        String outpostID = objectiveConfigSection.getString("outpost");
+                        currentObjectives.add(new FreeOutpostObjective(objectiveDescription, objectiveGoal, objectiveProgress, outpostID));
+                        break;
                     case "BlockBreak":
                         break;
                     default:
