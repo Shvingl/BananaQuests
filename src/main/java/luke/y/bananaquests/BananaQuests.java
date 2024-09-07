@@ -52,10 +52,6 @@ public final class BananaQuests extends JavaPlugin {
         }
     }
 
-    public boolean isInvalidQuestID(String id) {
-        return !validQuestIDs.contains(id);
-    }
-
     @Override
     public void onDisable() {
         // Plugin shutdown logic
@@ -68,7 +64,33 @@ public final class BananaQuests extends JavaPlugin {
      * Save data to player.yml
      */
     public void savePlayersQuests(Player player) {
-        //Tohle ještě bude sranda...
+        File playerFile = getPlayerFile(player);
+        YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+        final ArrayList<String> finishedIDS = new ArrayList<>();
+        for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
+            if (activeQuest.isFinished()) {
+                finishedIDS.add(activeQuest.getId());
+                playerConfig.set("active." + activeQuest.getId(), null);
+            }
+            else {
+                playerConfig.set("active." + activeQuest.getId() + ".stage", activeQuest.getStage());
+                for (int i = 0; i < activeQuest.getCurrentObjectives().size(); i++) {
+                    int objectiveID = i+1;
+                    playerConfig.set("active." + activeQuest.getId() + ".objectives-progress." + objectiveID, activeQuest.getCurrentObjectives().get(i).getProgress());
+                }
+            }
+        }
+
+        playerConfig.set("finished", finishedIDS);
+
+        try {
+            playerConfig.save(playerFile);
+        } catch (Exception e) {
+            Bukkit.getLogger().warning("Vyskytl se problém s uložením questů hráče " + player.getName());
+        }
+
+        activeQuestsMap.remove(player);
     }
 
     /**
@@ -78,24 +100,17 @@ public final class BananaQuests extends JavaPlugin {
      */
     public void loadPlayersQuests(Player player) {
 
-        File playerFile = new File(this.getDataFolder().getAbsoluteFile() + File.separator + "playerdata" + File.separator + player.getName() + ".yml");
-        if (!playerFile.exists()) {
-            createEmptyFile(playerFile);
-        }
+        File playerFile = getPlayerFile(player);
 
         ArrayList<ActiveQuest> questsToAdd = new ArrayList<>();
         YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-        ArrayList<String> finishedQuests = (ArrayList<String>) playerConfig.getList("finished");
 
+        ArrayList<String> finishedQuests = (ArrayList<String>) playerConfig.getList("finished");
         if (finishedQuests == null || finishedQuests.isEmpty()) {
             Bukkit.getLogger().info("Hráč " + player.getName() + " nemá žádné hotové questy.");
         }
         else {
             for (String questID : finishedQuests) {
-                if (isInvalidQuestID(questID)) {
-                    Bukkit.getLogger().warning(Util.prefix + " Hráč " + player.getName() + " má v listu neplatný hotový quest " + questID);
-                    continue;
-                }
 
                 ActiveQuest quest = new ActiveQuest(questID, player, 999 /*tady asi zjistit z configu max stage??*/, null, true);
                 questsToAdd.add(quest);
@@ -108,17 +123,13 @@ public final class BananaQuests extends JavaPlugin {
         }
         else {
             for (String questID : activeSection.getKeys(false)) {
-                if (isInvalidQuestID(questID)) {
-                    Bukkit.getLogger().warning(Util.prefix + " Hráč " + player.getName() + " má v listu neplatný quest " + questID);
-                    continue;
-                }
 
-                ConfigurationSection activeQuestSection = playerConfig.getConfigurationSection("active." + questID);
+                ConfigurationSection thisQuestSection = playerConfig.getConfigurationSection("active." + questID);
 
-                if (activeQuestSection == null)
+                if (thisQuestSection == null)
                     continue;
 
-                int stage = activeQuestSection.getInt("stage");
+                int stage = thisQuestSection.getInt("stage");
 
                 //Check if stage is null here
 
@@ -132,8 +143,8 @@ public final class BananaQuests extends JavaPlugin {
 
                 ArrayList<Integer> objectivesProgress = new ArrayList<>();
 
-                for (String objectiveID : activeQuestSection.getConfigurationSection(".objectives-progress").getKeys(false)) {
-                    int objectiveProgress = activeQuestSection.getInt(".objectives-progress." + objectiveID);
+                for (String objectiveID : thisQuestSection.getConfigurationSection(".objectives-progress").getKeys(false)) {
+                    int objectiveProgress = thisQuestSection.getInt(".objectives-progress." + objectiveID);
                     objectivesProgress.add(objectiveProgress);
                 }
                 questsToAdd.add(new ActiveQuest(questID, player, stage, objectivesProgress, false));
@@ -143,9 +154,9 @@ public final class BananaQuests extends JavaPlugin {
         activeQuestsMap.put(player, questsToAdd);
 
         //Test purposes
-        Bukkit.getLogger().info(player.getName() + " questy: ");
+        Bukkit.getLogger().info(ChatColor.GOLD + player.getName() + " questy: ");
         for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
-            Bukkit.getLogger().info(activeQuest.getId() + " finished: " + activeQuest.isFinished());
+            Bukkit.getLogger().info(ChatColor.GOLD + activeQuest.getId() + " || finished: " + activeQuest.isFinished());
         }
     }
 
@@ -174,6 +185,14 @@ public final class BananaQuests extends JavaPlugin {
         questList.add(newQuest);
         player.sendMessage(ChatColor.GREEN + "Začal jsi quest " + newQuest.getDisplay());
         activeQuestsMap.put(player, questList);
+    }
+
+    public File getPlayerFile(Player player) {
+        File playerFile = new File(this.getDataFolder().getAbsoluteFile() + File.separator + "playerdata" + File.separator + player.getName() + ".yml");
+        if (!playerFile.exists()) {
+            createEmptyFile(playerFile);
+        }
+        return playerFile;
     }
 
     private void createEmptyFile(File file) {

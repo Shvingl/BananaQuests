@@ -1,13 +1,16 @@
+C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\MythicMobKillListener.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\PlayerLeaveListener.java
+C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\MobKillListener.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\QuestObjective.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\InventoryClickListener.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\ActiveQuest.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\BananaQuests.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMobObjective.java
-C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\MobKillListener.java
+C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMythicMobObjective.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestadminCommand.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\PlayerJoinListener.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\util\Gui.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestsCommand.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\util\Util.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\RegionEnterObjective.java
+C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\OutpostFreeListener.java

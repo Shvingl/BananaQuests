@@ -1,6 +1,7 @@
 package luke.y.bananaquests.listeners;
 
 import luke.y.bananaquests.BananaQuests;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -11,6 +12,7 @@ public class PlayerLeaveListener implements Listener {
         this.plugin = plugin;
     }
 
+    @EventHandler
     public void onPlayerLeave(PlayerQuitEvent e) {
         plugin.savePlayersQuests(e.getPlayer());
     }

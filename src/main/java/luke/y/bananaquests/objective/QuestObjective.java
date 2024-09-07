@@ -32,6 +32,10 @@ public class QuestObjective {
         this.description = desc;
         this.goal = goal;
         this.progress = progress;
+
+        if (progress >= goal) {
+            finished = true;
+        }
     }
 
     public void increaseProgress(int amount, Player player) {

@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -96,7 +97,7 @@ public class Gui {
         ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
 
-        Set<String> allQuestIDs = BananaQuests.validQuestIDs;
+        Set<String> allQuestIDs = new HashSet<>(BananaQuests.validQuestIDs);
         for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
             allQuestIDs.remove(activeQuest.getId());
         }

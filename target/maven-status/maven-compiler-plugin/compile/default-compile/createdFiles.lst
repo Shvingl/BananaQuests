@@ -6,6 +6,7 @@ luke\y\bananaquests\util\Util.class
 luke\y\bananaquests\listeners\objectivelisteners\MythicMobKillListener.class
 luke\y\bananaquests\objective\KillMobObjective.class
 luke\y\bananaquests\listeners\InventoryClickListener.class
+luke\y\bananaquests\listeners\objectivelisteners\OutpostFreeListener.class
 luke\y\bananaquests\objective\RegionEnterObjective.class
 luke\y\bananaquests\listeners\PlayerJoinListener.class
 luke\y\bananaquests\listeners\PlayerLeaveListener.class

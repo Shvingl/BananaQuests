@@ -1,7 +1,5 @@
 package luke.y.bananaquests.commands;
 
-import luke.y.bananaquests.ActiveQuest;
-import luke.y.bananaquests.BananaQuests;
 import luke.y.bananaquests.util.Gui;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,9 +13,7 @@ public class QuestsCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
-            Gui.openActiveQuestsGUI(player);
-        }
+        Gui.openActiveQuestsGUI(player);
         return false;
     }
 }

@@ -13,6 +13,8 @@ public class InventoryClickListener implements Listener {
         Player player = (Player) e.getWhoClicked();
         String title = ChatColor.stripColor(e.getView().getTitle());
         if (title.equalsIgnoreCase(Gui.activeTitle) || title.equalsIgnoreCase(Gui.finishedTitle) || title.equalsIgnoreCase(Gui.unstartedTitle)) {
+            if (e.getCurrentItem() == null)
+                return;
             switch (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName())) {
                 case Gui.activeTitle:
                     Gui.openActiveQuestsGUI(player);
