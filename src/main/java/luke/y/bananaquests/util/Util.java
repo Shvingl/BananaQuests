@@ -1,26 +1,23 @@
 package luke.y.bananaquests.util;
 
+import com.xxmicloxx.NoteBlockAPI.model.Song;
+import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
+import luke.y.bananaquests.BananaQuests;
 import org.bukkit.entity.Player;
+
+import java.io.File;
 
 
 public class Util {
+
+    private static BananaQuests plugin;
+
+    public Util(BananaQuests plugin) {
+        Util.plugin = plugin;
+    }
+
     public static String prefix = "[BANANAQUESTS]";
 
-    /**
-     * Creates an instance of the ActiveQuest class and
-     * puts it in the map of player's active quests.
-     * @param id - quest id
-     * @param player - player
-     */
-
-    public static void startQuest(String id, Player player) {
-        createQuest(id, 0, player);
-    }
-
-    public static void createQuest(String id, int stage, Player player) {
-
-        //new ActiveQuest(id, 0, )
-    }
-
+    private static final Song song = NBSDecoder.parse(new File(plugin.getDataFolder() + "/jingle.nbs"));
 
 }

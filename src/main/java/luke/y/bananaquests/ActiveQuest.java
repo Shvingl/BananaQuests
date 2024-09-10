@@ -3,6 +3,7 @@ package luke.y.bananaquests;
 import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.MobType;
+import luke.y.bananaquests.events.QuestCompleteEvent;
 import luke.y.bananaquests.objective.FreeOutpostObjective;
 import luke.y.bananaquests.objective.KillMobObjective;
 import luke.y.bananaquests.objective.KillMythicMobObjective;
@@ -106,12 +107,8 @@ public class ActiveQuest {
     }
 
     private void finishQuest() {
+        Bukkit.getServer().getPluginManager().callEvent(new QuestCompleteEvent(owner, id));
         finished = true;
-        owner.sendMessage("");
-        owner.sendMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "QUEST SPLNĚN!");
-        owner.sendMessage(ChatColor.GREEN + display);
-        owner.sendMessage("");
-        owner.playSound(owner.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
     }
 
     public void initializeObjectives(ArrayList<Integer> progress) {
@@ -130,9 +127,9 @@ public class ActiveQuest {
                 }
 
                 //Values from quest's .yml
-                int objectiveGoal = objectiveConfigSection.getInt("goal");
-                String objectiveDescription = objectiveConfigSection.getString("description");
-                String objectiveType = objectiveConfigSection.getString("type");
+                int objectiveGoal = objectiveConfigSection != null ? objectiveConfigSection.getInt("goal") : 0;
+                String objectiveDescription = objectiveConfigSection != null ? objectiveConfigSection.getString("description") : "MISSING DESC";
+                String objectiveType = objectiveConfigSection != null ? objectiveConfigSection.getString("type") : null;
 
                 if (objectiveProgress > objectiveGoal) {
                     Bukkit.getLogger().warning(owner.getName() + " má neplatný progress stage " + id + ":" + objectiveID);
@@ -156,7 +153,7 @@ public class ActiveQuest {
                         break;
                     default:
                         Bukkit.getLogger().warning("Stage " + id + ":" + objectiveID + " hráče" + owner.getName() + "má neplatný typ.");
-                        continue;
+                        break;
                 }
             }
             for (QuestObjective questObjective : currentObjectives) {

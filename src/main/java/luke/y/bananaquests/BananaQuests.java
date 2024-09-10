@@ -1,8 +1,13 @@
 package luke.y.bananaquests;
 
+import com.xxmicloxx.NoteBlockAPI.model.Song;
+import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
+import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
 import luke.y.bananaquests.commands.QuestadminCommand;
+import luke.y.bananaquests.commands.QuestadminTabCompletion;
 import luke.y.bananaquests.commands.QuestsCommand;
 import luke.y.bananaquests.listeners.InventoryClickListener;
+import luke.y.bananaquests.listeners.QuestCompleteListener;
 import luke.y.bananaquests.listeners.objectivelisteners.MobKillListener;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
@@ -11,6 +16,7 @@ import luke.y.bananaquests.listeners.objectivelisteners.OutpostFreeListener;
 import luke.y.bananaquests.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -25,6 +31,11 @@ public final class BananaQuests extends JavaPlugin {
     public static Set<String> validQuestIDs = new HashSet<>();
     public static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
     public static final HashMap<String, YamlConfiguration> questConfigs = new HashMap<>();
+    private final Song song = NBSDecoder.parse(new File(getDataFolder() + "/jingle.nbs"));
+
+    public Song getSong() {
+        return song;
+    }
 
     @Override
     public void onEnable() {
@@ -32,6 +43,7 @@ public final class BananaQuests extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+        getServer().getPluginManager().registerEvents(new QuestCompleteListener(this), this);
 
         getServer().getPluginManager().registerEvents(new MobKillListener(), this);
         getServer().getPluginManager().registerEvents(new MythicMobKillListener(), this);
@@ -39,6 +51,7 @@ public final class BananaQuests extends JavaPlugin {
 
         Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestsCommand());
         Objects.requireNonNull(getCommand("questadmin")).setExecutor(new QuestadminCommand());
+        getCommand("questadmin").setTabCompleter(new QuestadminTabCompletion());
 
 
         //Projit všechny quest .yml soubory a dát je do validQuestIDs
@@ -172,20 +185,25 @@ public final class BananaQuests extends JavaPlugin {
 
     public static void beginQuest(String id, Player player) {
         if (!validQuestIDs.contains(id)) {
-            player.sendMessage(ChatColor.RED + "Plugin se ti pokusil odstartovat neexistujicí quest. Napiš to adminovi s aktuálním časem.");
+            player.sendMessage("");
+            player.sendMessage(ChatColor.RED + "FATÁLNÍ CHYBA: Plugin se ti pokusil odstartovat neexistujicí Quest. Napiš to adminovi společně s aktuálním časem.");
             return;
         }
         ArrayList<ActiveQuest> questList = activeQuestsMap.get(player);
         for (ActiveQuest activeQuest : questList) {
             if (activeQuest.getId().equalsIgnoreCase(id)) {
-                player.sendMessage(ChatColor.RED + "Tento quest už je aktivní.");
+                player.playSound(player, Sound.ENTITY_VILLAGER_NO, 1, 1);
+                player.sendMessage("");
+                player.sendMessage(ChatColor.RED + "Tento Quest už je aktivní.");
                 return;
             }
         }
 
         ActiveQuest newQuest = new ActiveQuest(id, player, 1, new ArrayList<>(), false);
         questList.add(newQuest);
-        player.sendMessage(ChatColor.GREEN + "Začal jsi quest " + newQuest.getDisplay());
+        player.sendMessage("");
+        player.playSound(player, Sound.ENTITY_VILLAGER_WORK_CARTOGRAPHER, 1, 1);
+        player.sendMessage(ChatColor.DARK_GREEN + "Začal jsi nový Quest " + ChatColor.GOLD + newQuest.getDisplay());
         activeQuestsMap.put(player, questList);
     }
 

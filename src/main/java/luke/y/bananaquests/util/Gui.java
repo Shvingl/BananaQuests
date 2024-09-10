@@ -39,18 +39,25 @@ public class Gui {
 
         for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
             if (!activeQuest.isFinished()) {
-                ItemStack questItem = getItemStack(activeQuest);
+                ItemStack questItem = getActiveItemStack(activeQuest);
                 inventory.addItem(questItem);
             }
         }
         player.openInventory(inventory);
     }
 
-    private static ItemStack getItemStack(ActiveQuest activeQuest) {
+    private static ItemStack getActiveItemStack(ActiveQuest activeQuest) {
         ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
         questItemMeta.setDisplayName(activeQuest.getDisplay());
         ArrayList<String> lore = new ArrayList<>();
+        int objectiveCount = activeQuest.getCurrentObjectives().size();
+        if (objectiveCount == 1) {
+            lore.add(ChatColor.WHITE + "Aktuální úkol:");
+        }
+        else {
+            lore.add(ChatColor.WHITE + "Aktuální úkoly:");
+        }
         for (QuestObjective objective : activeQuest.getCurrentObjectives()) {
             lore.add(ChatColor.GRAY + "● " + objective.getDescription() + " " + objective.getProgress() + "/" + objective.getGoal());
         }
@@ -70,7 +77,7 @@ public class Gui {
         activeButton.setItemMeta(activeButtonMeta);
         inventory.setItem(9*3-1, activeButton);
 
-        ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
+        ItemStack questItem = new ItemStack(Material.ENCHANTED_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
 
         for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
@@ -94,8 +101,6 @@ public class Gui {
         activeButton.setItemMeta(activeButtonMeta);
         inventory.setItem(9*4-1, activeButton);
 
-        ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
-        ItemMeta questItemMeta = questItem.getItemMeta();
 
         Set<String> allQuestIDs = new HashSet<>(BananaQuests.validQuestIDs);
         for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
@@ -103,6 +108,8 @@ public class Gui {
         }
 
         for (String questID : allQuestIDs) {
+            ItemStack questItem = new ItemStack(Material.BOOK);
+            ItemMeta questItemMeta = questItem.getItemMeta();
             questItemMeta.setDisplayName(BananaQuests.questConfigs.get(questID).getString("display"));
             ArrayList<String> lore = new ArrayList<>();
             lore.add(BananaQuests.questConfigs.get(questID).getString("hint"));
@@ -118,6 +125,7 @@ public class Gui {
         Inventory gui = Bukkit.createInventory(player, 9*5);
         ItemStack emptyButton = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta emptyButtonMeta = emptyButton.getItemMeta();
+        assert emptyButtonMeta != null;
         emptyButtonMeta.setDisplayName(ChatColor.GRAY + " ");
         emptyButton.setItemMeta(emptyButtonMeta);
         ItemStack activeButton = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
@@ -126,9 +134,12 @@ public class Gui {
         ItemMeta activeButtonMeta = activeButton.getItemMeta();
         ItemMeta finishedButtonMeta = finishedButton.getItemMeta();
         ItemMeta unstartedButtonMeta = unstartedButton.getItemMeta();
-        activeButtonMeta.setDisplayName(activeTitle);
-        finishedButtonMeta.setDisplayName(finishedTitle);
-        unstartedButtonMeta.setDisplayName(unstartedTitle);
+        assert activeButtonMeta != null;
+        activeButtonMeta.setDisplayName(ChatColor.GRAY + activeTitle);
+        assert finishedButtonMeta != null;
+        finishedButtonMeta.setDisplayName(ChatColor.GRAY + finishedTitle);
+        assert unstartedButtonMeta != null;
+        unstartedButtonMeta.setDisplayName(ChatColor.GRAY + unstartedTitle);
         activeButton.setItemMeta(activeButtonMeta);
         finishedButton.setItemMeta(finishedButtonMeta);
         unstartedButton.setItemMeta(unstartedButtonMeta);

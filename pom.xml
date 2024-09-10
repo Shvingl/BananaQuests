@@ -30,8 +30,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
+          <source>16</source>
+          <target>16</target>
         </configuration>
       </plugin>
       <plugin>
@@ -60,6 +60,10 @@
       <repository>
           <id>spigotmc-repo</id>
           <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+      </repository>
+      <repository>
+          <id>jitpack.io</id>
+          <url>https://jitpack.io</url>
       </repository>
       <repository>
           <id>sonatype</id>
@@ -91,6 +95,12 @@
           <version>1.0</version>
           <scope>system</scope>
           <systemPath>D:/.Recovering 3/.Server-Bananacraft-5/plugins/Outpost-1.0.jar</systemPath>
+      </dependency>
+      <dependency>
+          <groupId>com.github.koca2000</groupId>
+          <artifactId>NoteBlockAPI</artifactId>
+          <version>1.6.2</version>
+          <scope>provided</scope>
       </dependency>
 
   </dependencies>
