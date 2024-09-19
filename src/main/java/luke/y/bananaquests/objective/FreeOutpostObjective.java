@@ -1,7 +1,5 @@
 package luke.y.bananaquests.objective;
 
-import org.bukkit.entity.EntityType;
-
 public class FreeOutpostObjective extends QuestObjective{
 
     private final String outpostID;

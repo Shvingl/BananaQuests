@@ -4,10 +4,7 @@ import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.MobType;
 import luke.y.bananaquests.events.QuestCompleteEvent;
-import luke.y.bananaquests.objective.FreeOutpostObjective;
-import luke.y.bananaquests.objective.KillMobObjective;
-import luke.y.bananaquests.objective.KillMythicMobObjective;
-import luke.y.bananaquests.objective.QuestObjective;
+import luke.y.bananaquests.objective.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -148,6 +145,10 @@ public class ActiveQuest {
                     case "FreeOutpost":
                         String outpostID = objectiveConfigSection.getString("outpost");
                         currentObjectives.add(new FreeOutpostObjective(objectiveDescription, objectiveGoal, objectiveProgress, outpostID));
+                        break;
+                    case "FinishShootingGame":
+                        //String gameID = objectiveConfigSection.getString("outpost");
+                        currentObjectives.add(new FinishShootingGameObjective(objectiveDescription, objectiveGoal, objectiveProgress, null));
                         break;
                     case "BlockBreak":
                         break;

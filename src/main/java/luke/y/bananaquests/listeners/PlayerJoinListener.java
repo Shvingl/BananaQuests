@@ -18,6 +18,5 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         plugin.loadPlayersQuests(e.getPlayer());
-        e.getPlayer().sendMessage("Valid quest configs: " + BananaQuests.questConfigs);
     }
 }

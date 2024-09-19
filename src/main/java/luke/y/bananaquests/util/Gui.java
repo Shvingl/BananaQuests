@@ -47,7 +47,12 @@ public class Gui {
     private static ItemStack getActiveItemStack(ActiveQuest activeQuest, boolean tracked) {
         ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
-        questItemMeta.setDisplayName(activeQuest.getDisplay());
+        if (tracked) {
+            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay() + ChatColor.RESET + "" + ChatColor.GOLD + "*");
+        }
+        else {
+            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay());
+        }
         ArrayList<String> lore = new ArrayList<>();
         int objectiveCount = activeQuest.getCurrentObjectives().size();
         if (objectiveCount == 1) {
@@ -112,7 +117,7 @@ public class Gui {
             ItemMeta questItemMeta = questItem.getItemMeta();
             questItemMeta.setDisplayName(BananaQuests.questConfigs.get(questID).getString("display"));
             ArrayList<String> lore = new ArrayList<>();
-            lore.add(BananaQuests.questConfigs.get(questID).getString("hint"));
+            lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Nápověda: " + BananaQuests.questConfigs.get(questID).getString("hint"));
             questItemMeta.setLore(lore);
             questItem.setItemMeta(questItemMeta);
             inventory.addItem(questItem);

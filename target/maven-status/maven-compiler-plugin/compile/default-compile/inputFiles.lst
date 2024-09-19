@@ -7,6 +7,7 @@ C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objec
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\events\QuestCompleteEvent.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\InventoryClickListener.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\ActiveQuest.java
+C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestadminTabCompletion.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\BananaQuests.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMobObjective.java
 C:\Users\Lukas\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMythicMobObjective.java

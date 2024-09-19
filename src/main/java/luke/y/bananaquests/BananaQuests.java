@@ -1,19 +1,18 @@
 package luke.y.bananaquests;
 
 import com.xxmicloxx.NoteBlockAPI.model.Song;
-import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
 import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
 import luke.y.bananaquests.commands.QuestadminCommand;
 import luke.y.bananaquests.commands.QuestadminTabCompletion;
 import luke.y.bananaquests.commands.QuestsCommand;
 import luke.y.bananaquests.listeners.InventoryClickListener;
 import luke.y.bananaquests.listeners.QuestCompleteListener;
+import luke.y.bananaquests.listeners.objectivelisteners.FinishShootingGameListener;
 import luke.y.bananaquests.listeners.objectivelisteners.MobKillListener;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
 import luke.y.bananaquests.listeners.objectivelisteners.MythicMobKillListener;
 import luke.y.bananaquests.listeners.objectivelisteners.OutpostFreeListener;
-import luke.y.bananaquests.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -49,6 +48,7 @@ public final class BananaQuests extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MobKillListener(), this);
         getServer().getPluginManager().registerEvents(new MythicMobKillListener(), this);
         getServer().getPluginManager().registerEvents(new OutpostFreeListener(), this);
+        getServer().getPluginManager().registerEvents(new FinishShootingGameListener(), this);
 
         Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestsCommand());
         Objects.requireNonNull(getCommand("questadmin")).setExecutor(new QuestadminCommand());
@@ -56,7 +56,7 @@ public final class BananaQuests extends JavaPlugin {
 
 
         //Projit všechny quest .yml soubory a dát je do validQuestIDs
-        for (File file : new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles()) {
+        for (File file : Objects.requireNonNull(new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles())) {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
             String questID = file.getName().replace(".yml", "");
             questConfigs.put(questID, config);
@@ -65,6 +65,10 @@ public final class BananaQuests extends JavaPlugin {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             loadPlayersQuests(player);
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new BananaQuestsExpansion(this).register();
         }
     }
 

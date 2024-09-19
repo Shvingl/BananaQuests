@@ -20,7 +20,7 @@ public class QuestCompleteListener implements Listener {
     public void onQuestComplete(QuestCompleteEvent e) {
         Player player = e.getPlayer();
         YamlConfiguration questConfig = BananaQuests.questConfigs.get(e.getQuestID());
-        player.sendTitle(ChatColor.GREEN + "" + ChatColor.BOLD + "QUEST SPLNĚN!", ChatColor.YELLOW + questConfig.getString("display"));
+        player.sendTitle(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "QUEST SPLNĚN!", ChatColor.YELLOW + questConfig.getString("display"));
         RadioSongPlayer rsp = new RadioSongPlayer(plugin.getSong());
         rsp.addPlayer(player);
         rsp.setPlaying(true);
