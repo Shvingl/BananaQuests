@@ -172,7 +172,7 @@ public final class BananaQuests extends JavaPlugin {
         }
 
         activeQuestsMap.put(player, questsToAdd);
-        trackedQuestMap.put(player, getOngoingQuests(player).get(0));
+        trackQuest(player, getOngoingQuests(player).get(0));
     }
 
     public static ArrayList<ActiveQuest> getOngoingQuests(Player player) {
@@ -225,6 +225,11 @@ public final class BananaQuests extends JavaPlugin {
         player.playSound(player, Sound.ENTITY_VILLAGER_WORK_CARTOGRAPHER, 1, 1);
         player.sendMessage(ChatColor.DARK_GREEN + "Začal jsi nový Quest " + ChatColor.GOLD + newQuest.getDisplay());
         activeQuestsMap.put(player, questList);
+        trackQuest(player, newQuest);
+    }
+
+    public static void trackQuest(Player player, ActiveQuest questToTrack) {
+        trackedQuestMap.put(player, questToTrack);
     }
 
     public File getPlayerFile(Player player) {
