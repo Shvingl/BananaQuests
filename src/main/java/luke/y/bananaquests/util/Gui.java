@@ -37,11 +37,9 @@ public class Gui {
         inventory.setItem(9*2-1, activeButton);
         
 
-        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
-            if (!activeQuest.isFinished()) {
-                ItemStack questItem = getActiveItemStack(activeQuest, BananaQuests.trackedQuestMap.get(player) == activeQuest);
-                inventory.addItem(questItem);
-            }
+        for (ActiveQuest activeQuest : BananaQuests.getOngoingQuests(player)) {
+            ItemStack questItem = getActiveItemStack(activeQuest, BananaQuests.trackedQuestMap.get(player) == activeQuest);
+            inventory.addItem(questItem);
         }
         player.openInventory(inventory);
     }
@@ -84,12 +82,10 @@ public class Gui {
         ItemStack questItem = new ItemStack(Material.ENCHANTED_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
 
-        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
-            if (activeQuest.isFinished()) {
-                questItemMeta.setDisplayName(activeQuest.getDisplay());
-                questItem.setItemMeta(questItemMeta);
-                inventory.addItem(questItem);
-            }
+        for (ActiveQuest activeQuest : BananaQuests.getFinishedQuests(player)) {
+            questItemMeta.setDisplayName(activeQuest.getDisplay());
+            questItem.setItemMeta(questItemMeta);
+            inventory.addItem(questItem);
         }
         player.openInventory(inventory);
     }

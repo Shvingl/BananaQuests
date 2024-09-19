@@ -168,7 +168,27 @@ public final class BananaQuests extends JavaPlugin {
         }
 
         activeQuestsMap.put(player, questsToAdd);
-        trackedQuestMap.put(player, questsToAdd.get(0));
+        trackedQuestMap.put(player, getOngoingQuests(player).get(0));
+    }
+
+    public static ArrayList<ActiveQuest> getOngoingQuests(Player player) {
+        ArrayList<ActiveQuest> toReturn = new ArrayList<>();
+        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
+            if (!(activeQuest.isFinished())) {
+                toReturn.add(activeQuest);
+            }
+        }
+        return toReturn;
+    }
+
+    public static ArrayList<ActiveQuest> getFinishedQuests(Player player) {
+        ArrayList<ActiveQuest> toReturn = new ArrayList<>();
+        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
+            if (activeQuest.isFinished()) {
+                toReturn.add(activeQuest);
+            }
+        }
+        return toReturn;
     }
 
     public static void forceBeginQuest(String id, Player player) {
