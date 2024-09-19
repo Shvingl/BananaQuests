@@ -30,6 +30,7 @@ public final class BananaQuests extends JavaPlugin {
 
     public static Set<String> validQuestIDs = new HashSet<>();
     public static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
+    public static final HashMap<Player, ActiveQuest> trackedQuestMap = new HashMap<>();
     public static final HashMap<String, YamlConfiguration> questConfigs = new HashMap<>();
     private final Song song = NBSDecoder.parse(new File(getDataFolder() + "/jingle.nbs"));
 
@@ -167,12 +168,7 @@ public final class BananaQuests extends JavaPlugin {
         }
 
         activeQuestsMap.put(player, questsToAdd);
-
-        //Test purposes
-        Bukkit.getLogger().info(ChatColor.GOLD + player.getName() + " questy: ");
-        for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
-            Bukkit.getLogger().info(ChatColor.GOLD + activeQuest.getId() + " || finished: " + activeQuest.isFinished());
-        }
+        trackedQuestMap.put(player, questsToAdd.get(0));
     }
 
     public static void forceBeginQuest(String id, Player player) {

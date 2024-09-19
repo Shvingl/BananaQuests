@@ -39,14 +39,14 @@ public class Gui {
 
         for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
             if (!activeQuest.isFinished()) {
-                ItemStack questItem = getActiveItemStack(activeQuest);
+                ItemStack questItem = getActiveItemStack(activeQuest, BananaQuests.trackedQuestMap.get(player) == activeQuest);
                 inventory.addItem(questItem);
             }
         }
         player.openInventory(inventory);
     }
 
-    private static ItemStack getActiveItemStack(ActiveQuest activeQuest) {
+    private static ItemStack getActiveItemStack(ActiveQuest activeQuest, boolean tracked) {
         ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
         questItemMeta.setDisplayName(activeQuest.getDisplay());
@@ -60,6 +60,10 @@ public class Gui {
         }
         for (QuestObjective objective : activeQuest.getCurrentObjectives()) {
             lore.add(ChatColor.GRAY + "● " + objective.getDescription() + " " + objective.getProgress() + "/" + objective.getGoal());
+        }
+        if (tracked) {
+            lore.add("");
+            lore.add(ChatColor.GOLD + "TRACKED QUEST");
         }
         questItemMeta.setLore(lore);
         questItem.setItemMeta(questItemMeta);
