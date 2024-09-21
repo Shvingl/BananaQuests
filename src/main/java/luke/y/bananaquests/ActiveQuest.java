@@ -60,6 +60,10 @@ public class ActiveQuest {
         return null;
     }
 
+    private boolean isTracked() {
+        return (BananaQuests.trackedQuestMap.get(owner) == this);
+    }
+
     private boolean finished;
 
     public boolean isFinished() {
@@ -114,6 +118,10 @@ public class ActiveQuest {
     private void finishQuest() {
         Bukkit.getServer().getPluginManager().callEvent(new QuestCompleteEvent(owner, id));
         finished = true;
+        if (isTracked()) {
+            owner.sendMessage("DEBUG: You will track a new quest");
+            BananaQuests.trackNewQuest(owner);
+        }
     }
 
     public void initializeObjectives(ArrayList<Integer> progress) {
