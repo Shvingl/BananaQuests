@@ -228,6 +228,16 @@ public final class BananaQuests extends JavaPlugin {
         trackQuest(player, newQuest);
     }
 
+    public static void trackNewQuest(Player player) {
+        if (getOngoingQuests(player).get(0) != null) {
+            trackQuest(player, getOngoingQuests(player).get(0));
+        }
+        else {
+            player.sendMessage("DEBUG: Už žádný quest nelze trackovat...");
+            trackQuest(player, null);
+        }
+    }
+
     public static void trackQuest(Player player, ActiveQuest questToTrack) {
         trackedQuestMap.put(player, questToTrack);
     }

@@ -51,6 +51,15 @@ public class ActiveQuest {
         return currentObjectives;
     }
 
+    public QuestObjective getFirstUnfinishedObjective() {
+        for (QuestObjective objective : currentObjectives) {
+            if (!objective.isFinished()) {
+                return objective;
+            }
+        }
+        return null;
+    }
+
     private boolean finished;
 
     public boolean isFinished() {

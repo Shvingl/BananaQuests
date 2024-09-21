@@ -55,20 +55,19 @@ public class BananaQuestsExpansion extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("trackedobjective")) {
             if (player.isOnline()) {
                 Player onlinePlayer = (Player) player;
-                //Tady to změnit ať getne prvni objective, ktery neni splněny.
-                return String.valueOf(BananaQuests.trackedQuestMap.get(onlinePlayer).getCurrentObjectives().get(0).getDescription());
+                return String.valueOf(BananaQuests.trackedQuestMap.get(onlinePlayer).getFirstUnfinishedObjective().getDescription());
             }
         }
         if (params.equalsIgnoreCase("trackedprogress")) {
             if (player.isOnline()) {
                 Player onlinePlayer = (Player) player;
-                return String.valueOf(BananaQuests.trackedQuestMap.get(onlinePlayer).getCurrentObjectives().get(0).getProgress());
+                return String.valueOf(BananaQuests.trackedQuestMap.get(onlinePlayer).getFirstUnfinishedObjective().getProgress());
             }
         }
         if (params.equalsIgnoreCase("trackedgoal")) {
             if (player.isOnline()) {
                 Player onlinePlayer = (Player) player;
-                return String.valueOf(BananaQuests.trackedQuestMap.get(onlinePlayer).getCurrentObjectives().get(0).getGoal());
+                return String.valueOf(BananaQuests.trackedQuestMap.get(onlinePlayer).getFirstUnfinishedObjective().getGoal());
             }
         }
         if (params.equalsIgnoreCase("hastracked")) {
