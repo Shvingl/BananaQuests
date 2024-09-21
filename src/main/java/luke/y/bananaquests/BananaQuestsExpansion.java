@@ -77,6 +77,34 @@ public class BananaQuestsExpansion extends PlaceholderExpansion {
                 return String.valueOf(BananaQuests.trackedQuestMap.containsKey(onlinePlayer));
             }
         }
+        if (params.contains("has_started_")) {
+            String questID = params.replace("has_started_", "").toLowerCase();
+            if (!(BananaQuests.validQuestIDs.contains(questID)))
+                return null;
+            if (player.isOnline()) {
+                Player onlinePlayer = (Player) player;
+                for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(onlinePlayer)) {
+                    if (activeQuest.getId().equalsIgnoreCase(questID)) {
+                        return "true";
+                    }
+                }
+                return "false";
+            }
+        }
+        if (params.contains("has_finished_")) {
+            String questID = params.replace("has_finished_", "").toLowerCase();
+            if (!(BananaQuests.validQuestIDs.contains(questID)))
+                return null;
+            if (player.isOnline()) {
+                Player onlinePlayer = (Player) player;
+                for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(onlinePlayer)) {
+                    if (activeQuest.getId().equalsIgnoreCase(questID) && activeQuest.isFinished()) {
+                        return "true";
+                    }
+                }
+                return "false";
+            }
+        }
 
         return null; //
     }

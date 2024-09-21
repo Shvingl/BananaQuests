@@ -42,10 +42,10 @@ public class QuestObjective {
 
     public void increaseProgress(int amount, Player player) {
         progress+=amount;
-        player.sendMessage(ChatColor.DARK_GREEN + description + " " + progress + "/" + getGoal());
-        player.playSound(player, Sound.ITEM_BUNDLE_INSERT, 1, 1);
         if (progress >= goal) {
             finished = true;
+            player.sendMessage(ChatColor.DARK_GREEN + description + " ✔");
+            player.playSound(player, Sound.ITEM_BUNDLE_INSERT, 1, 1);
             owner.tryMoveToNextStage();
         }
     }

@@ -92,7 +92,6 @@ public class ActiveQuest {
     }
 
     private void moveToNextStage() {
-        owner.sendMessage("Moving to next stage...");
         stage++;
         currentObjectives.clear();
         if (stage > BananaQuests.questConfigs.get(id).getConfigurationSection("stages").getKeys(false).size()) {
