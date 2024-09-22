@@ -164,7 +164,12 @@ public class ActiveQuest {
                         break;
                     case "FinishShootingGame":
                         //String gameID = objectiveConfigSection.getString("outpost");
+                        //Dodělat
                         currentObjectives.add(new FinishShootingGameObjective(objectiveDescription, objectiveGoal, objectiveProgress, null));
+                        break;
+                    case "EnterRegion":
+                        String regionID = objectiveConfigSection.getString("region");
+                        currentObjectives.add(new EnterRegionObjective(objectiveDescription, objectiveGoal, objectiveProgress, regionID));
                         break;
                     case "BlockBreak":
                         break;

@@ -7,12 +7,9 @@ import luke.y.bananaquests.commands.QuestadminTabCompletion;
 import luke.y.bananaquests.commands.QuestsCommand;
 import luke.y.bananaquests.listeners.InventoryClickListener;
 import luke.y.bananaquests.listeners.QuestCompleteListener;
-import luke.y.bananaquests.listeners.objectivelisteners.FinishShootingGameListener;
-import luke.y.bananaquests.listeners.objectivelisteners.MobKillListener;
+import luke.y.bananaquests.listeners.objectivelisteners.*;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
-import luke.y.bananaquests.listeners.objectivelisteners.MythicMobKillListener;
-import luke.y.bananaquests.listeners.objectivelisteners.OutpostFreeListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -49,6 +46,7 @@ public final class BananaQuests extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MythicMobKillListener(), this);
         getServer().getPluginManager().registerEvents(new OutpostFreeListener(), this);
         getServer().getPluginManager().registerEvents(new FinishShootingGameListener(), this);
+        getServer().getPluginManager().registerEvents(new RegionEnterListener(), this);
 
         Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestsCommand());
         Objects.requireNonNull(getCommand("questadmin")).setExecutor(new QuestadminCommand());
@@ -236,6 +234,14 @@ public final class BananaQuests extends JavaPlugin {
             player.sendMessage("DEBUG: Už žádný quest nelze trackovat...");
             trackQuest(player, null);
         }
+    }
+
+    public static void forgetQuest(Player player, ActiveQuest activeQuest) {
+        activeQuestsMap.get(player).remove(activeQuest);
+    }
+
+    public static void forgetAllQuests(Player player) {
+        activeQuestsMap.get(player).clear();
     }
 
     public static void trackQuest(Player player, ActiveQuest questToTrack) {

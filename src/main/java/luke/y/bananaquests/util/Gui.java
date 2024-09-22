@@ -48,7 +48,7 @@ public class Gui {
         ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
         if (tracked) {
-            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay() + ChatColor.RESET + "" + ChatColor.GOLD + "*");
+            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay() + ChatColor.RESET + "" + ChatColor.GOLD + " ⚐");
         }
         else {
             questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay());
@@ -66,7 +66,7 @@ public class Gui {
         }
         if (tracked) {
             lore.add("");
-            lore.add(ChatColor.GOLD + "TRACKED QUEST");
+            lore.add(ChatColor.GOLD + "SLEDOVANÝ QUEST");
         }
         questItemMeta.setLore(lore);
         questItem.setItemMeta(questItemMeta);
