@@ -83,7 +83,7 @@ public final class BananaQuests extends JavaPlugin {
      */
     public void savePlayersQuests(Player player) {
         File playerFile = getPlayerFile(player);
-        YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+        YamlConfiguration playerConfig = new YamlConfiguration();
 
         final ArrayList<String> finishedIDS = new ArrayList<>();
         for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
