@@ -14,10 +14,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Gui {
 
@@ -26,7 +23,7 @@ public class Gui {
     public static final String unstartedTitle = "Nezapočaté Questy";
 
     public static void openActiveQuestsGUI(Player player) {
-        Inventory inventory = Bukkit.createInventory(player, 9*5, activeTitle);
+        Inventory inventory = Bukkit.createInventory(player, 9*5, activeTitle + " " + ChatColor.DARK_GRAY + "[" + BananaQuests.getOngoingQuests(player).size() + "]");
         inventory.setContents(createShell(player).getStorageContents());
         ItemStack activeButton = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
         ItemMeta activeButtonMeta = activeButton.getItemMeta();
@@ -48,12 +45,13 @@ public class Gui {
         ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
         if (tracked) {
-            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay() + ChatColor.RESET + "" + ChatColor.GOLD + " ⚐");
+            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay() + ChatColor.RESET + "" + ChatColor.DARK_GREEN + " ⚐");
         }
         else {
             questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay());
         }
         ArrayList<String> lore = new ArrayList<>();
+        lore.add("");
         int objectiveCount = activeQuest.getCurrentObjectives().size();
         if (objectiveCount == 1) {
             lore.add(ChatColor.WHITE + "Aktuální úkol:");
@@ -64,9 +62,13 @@ public class Gui {
         for (QuestObjective objective : activeQuest.getCurrentObjectives()) {
             lore.add(ChatColor.GRAY + "● " + objective.getDescription() + " " + objective.getProgress() + "/" + objective.getGoal());
         }
+        lore.add("");
+        lore.add(ChatColor.BOLD + "" + ChatColor.GRAY + "Odměny:");
+        lore.add(ChatColor.DARK_GRAY + "- "+ activeQuest.getEXP() + " EXP");
+        lore.add(ChatColor.DARK_GRAY + "- "+ activeQuest.getMoney() + " BCoinů");
         if (tracked) {
             lore.add("");
-            lore.add(ChatColor.GOLD + "SLEDOVANÝ QUEST");
+            lore.add(ChatColor.DARK_GREEN + "» SLEDOVANÝ QUEST «");
         }
         questItemMeta.setLore(lore);
         questItem.setItemMeta(questItemMeta);
@@ -87,8 +89,10 @@ public class Gui {
         ItemStack questItem = new ItemStack(Material.ENCHANTED_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
 
+        ArrayList<String> lore = new ArrayList<>(List.of(ChatColor.DARK_GRAY + "Tento Quest už byl dokončen."));
         for (ActiveQuest activeQuest : BananaQuests.getFinishedQuests(player)) {
-            questItemMeta.setDisplayName(activeQuest.getDisplay());
+            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay());
+            questItemMeta.setLore(lore);
             questItem.setItemMeta(questItemMeta);
             inventory.addItem(questItem);
         }
@@ -115,9 +119,10 @@ public class Gui {
         for (String questID : allQuestIDs) {
             ItemStack questItem = new ItemStack(Material.BOOK);
             ItemMeta questItemMeta = questItem.getItemMeta();
-            questItemMeta.setDisplayName(BananaQuests.questConfigs.get(questID).getString("display"));
+            questItemMeta.setDisplayName(ChatColor.BOLD + BananaQuests.questConfigs.get(questID).getString("display"));
             ArrayList<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Nápověda: " + BananaQuests.questConfigs.get(questID).getString("hint"));
+            lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Nápověda:");
+            lore.add(ChatColor.GRAY + BananaQuests.questConfigs.get(questID).getString("hint"));
             questItemMeta.setLore(lore);
             questItem.setItemMeta(questItemMeta);
             inventory.addItem(questItem);

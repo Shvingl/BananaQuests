@@ -1,5 +1,6 @@
 package luke.y.bananaquests.listeners;
 
+import luke.y.bananaquests.ActiveQuest;
 import luke.y.bananaquests.BananaQuests;
 import luke.y.bananaquests.util.Gui;
 import org.bukkit.ChatColor;
@@ -9,31 +10,48 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.Locale;
+import java.util.Random;
+
 public class InventoryClickListener implements Listener {
+    Random random = new Random();
     @EventHandler
     public void onGuiClick(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
         String title = ChatColor.stripColor(e.getView().getTitle());
-        if (!(title.equalsIgnoreCase(Gui.activeTitle) || title.equalsIgnoreCase(Gui.finishedTitle) || title.equalsIgnoreCase(Gui.unstartedTitle)))
+        if (!(title.contains(Gui.activeTitle) || title.contains(Gui.finishedTitle) || title.contains(Gui.unstartedTitle)))
             return;
         if (e.getCurrentItem() == null)
             return;
-        switch (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName())) {
-            case Gui.activeTitle:
+        e.setCancelled(true);
+        switch (e.getSlot()) {
+            case 17:
                 Gui.openActiveQuestsGUI(player);
-                break;
-            case Gui.finishedTitle:
+                player.playSound(player, Sound.ITEM_BOOK_PUT, 1, 1);
+                return;
+            case 17+9:
                 Gui.openFinishedQuestsGUI(player);
-                break;
-            case Gui.unstartedTitle:
+                player.playSound(player, Sound.ITEM_BOOK_PUT, 1, 1);
+                return;
+            case 17+9*2:
                 Gui.openUnstartedQuestsGUI(player);
-                break;
+                player.playSound(player, Sound.ITEM_BOOK_PUT, 1, 1);
+                return;
             default:
                 break;
         }
-        BananaQuests.trackedQuestMap.put(player, BananaQuests.getOngoingQuests(player).get(e.getSlot()));
-        player.playSound(player, Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
-        Gui.openActiveQuestsGUI(player);
-        e.setCancelled(true);
+        if (title.contains(Gui.activeTitle)) {
+            int questIndex = (int) (e.getSlot() - Math.floor((double)e.getSlot()/9));
+            ActiveQuest clickedQuest = BananaQuests.getOngoingQuests(player).get(questIndex);
+            if (BananaQuests.trackedQuestMap.get(player) == clickedQuest) {
+                player.playSound(player, Sound.ITEM_ARMOR_EQUIP_GENERIC, 1, 0.7f);
+                BananaQuests.trackedQuestMap.put(player, null);
+            }
+            else {
+                player.playSound(player, Sound.ITEM_ARMOR_EQUIP_GENERIC, 1, 1);
+                BananaQuests.trackedQuestMap.put(player, clickedQuest);
+            }
+            Gui.openActiveQuestsGUI(player);
+        }
     }
 }

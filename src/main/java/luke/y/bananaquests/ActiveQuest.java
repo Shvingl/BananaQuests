@@ -28,6 +28,17 @@ public class ActiveQuest {
     }
 
     private Player owner;
+    private int exp;
+
+    public int getEXP() {
+        return exp;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    private int money;
 
     public Player getOwner() {
         return owner;
@@ -77,6 +88,9 @@ public class ActiveQuest {
         this.finished = finished;
 
         this.display = BananaQuests.questConfigs.get(id).getString("display");
+
+        this.exp = 0;
+        this.money = 0;
 
         initializeObjectives(progress);
 
