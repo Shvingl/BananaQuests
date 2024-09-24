@@ -17,9 +17,7 @@ public class MythicMobKillListener implements Listener {
         Player killer = (Player) e.getKiller();
         if (killer == null)
             return;
-        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(killer)) {
-            if (activeQuest.isFinished())
-                continue;
+        for (ActiveQuest activeQuest : BananaQuests.getOngoingQuests(killer)) {
             for (QuestObjective questObjective : activeQuest.getCurrentObjectives()) {
                 if (!questObjective.getClass().equals(KillMythicMobObjective.class))
                     continue;

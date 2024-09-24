@@ -15,9 +15,7 @@ public class FinishShootingGameListener implements Listener {
         Player player = e.getPlayer();
         if (player == null)
             return;
-        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
-            if (activeQuest.isFinished())
-                continue;
+        for (ActiveQuest activeQuest : BananaQuests.getOngoingQuests(player)) {
             for (QuestObjective questObjective : activeQuest.getCurrentObjectives()) {
                 if (!questObjective.getClass().equals(FinishShootingGameObjective.class))
                     continue;

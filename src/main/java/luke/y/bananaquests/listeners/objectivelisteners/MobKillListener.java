@@ -15,9 +15,7 @@ public class MobKillListener implements Listener {
         Player killer = e.getEntity().getKiller();
         if (killer == null)
             return;
-        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(killer)) {
-            if (activeQuest.isFinished())
-                continue;
+        for (ActiveQuest activeQuest : BananaQuests.getOngoingQuests(killer)) {
             for (QuestObjective questObjective : activeQuest.getCurrentObjectives()) {
                 if (!questObjective.getClass().equals(KillMobObjective.class))
                     continue;
