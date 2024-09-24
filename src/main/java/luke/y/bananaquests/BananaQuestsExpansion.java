@@ -73,7 +73,7 @@ public class BananaQuestsExpansion extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("hastracked")) {
             if (player.isOnline()) {
                 Player onlinePlayer = (Player) player;
-                return String.valueOf(BananaQuests.trackedQuestMap.containsKey(onlinePlayer));
+                return String.valueOf(BananaQuests.trackedQuestMap.containsKey(onlinePlayer) && BananaQuests.trackedQuestMap.get(onlinePlayer) != null);
             }
         }
         if (params.contains("has_started_")) {

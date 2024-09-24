@@ -119,7 +119,7 @@ public class ActiveQuest {
         Bukkit.getServer().getPluginManager().callEvent(new QuestCompleteEvent(owner, id));
         finished = true;
         if (isTracked()) {
-            owner.sendMessage("DEBUG: You will track a new quest");
+            owner.sendMessage("DEBUG: Tento quest byl tracklý. Pokusím se tracknout nový quest.");
             BananaQuests.trackNewQuest(owner);
         }
     }

@@ -250,7 +250,7 @@ public final class BananaQuests extends JavaPlugin {
     }
 
     public static void trackNewQuest(Player player) {
-        if (getOngoingQuests(player).get(0) != null) {
+        if (!getOngoingQuests(player).isEmpty()) {
             trackQuest(player, getOngoingQuests(player).get(0));
         }
         else {
