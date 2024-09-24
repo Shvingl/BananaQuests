@@ -173,6 +173,29 @@ public final class BananaQuests extends JavaPlugin {
         trackQuest(player, getOngoingQuests(player).get(0));
     }
 
+    public static void finishQuest(Player player, String id) {
+        ActiveQuest questToFinish = getQuestById(player, id);
+        if (questToFinish == null) {
+            player.sendMessage(ChatColor.RED + "Error: plugin se ti snaží dokončit quest, který jsi nezačal. Kontaktuj admina s aktuálním časem.");
+        }
+        else {
+            questToFinish.finishQuest();
+        }
+    }
+
+    public static void finishQuest(Player player, ActiveQuest activeQuest) {
+        finishQuest(player, activeQuest.getId());
+    }
+
+    public static ActiveQuest getQuestById(Player player, String id) {
+        for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
+            if (activeQuest.getId().equalsIgnoreCase(id)) {
+                return activeQuest;
+            }
+        }
+        return null;
+    }
+
     public static ArrayList<ActiveQuest> getOngoingQuests(Player player) {
         ArrayList<ActiveQuest> toReturn = new ArrayList<>();
         for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {

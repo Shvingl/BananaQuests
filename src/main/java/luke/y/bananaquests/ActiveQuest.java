@@ -115,7 +115,7 @@ public class ActiveQuest {
         initializeObjectives(new ArrayList<>());
     }
 
-    private void finishQuest() {
+    public void finishQuest() {
         Bukkit.getServer().getPluginManager().callEvent(new QuestCompleteEvent(owner, id));
         finished = true;
         if (isTracked()) {

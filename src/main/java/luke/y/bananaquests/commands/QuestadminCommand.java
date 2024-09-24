@@ -40,6 +40,34 @@ public class QuestadminCommand implements CommandExecutor {
                 break;
             case "forcestartquest":
                 break;
+            case "finishquest":
+                if (args.length == 2) {
+                    if (sender instanceof Player player) {
+                        String id = args[1];
+                        if (!BananaQuests.validQuestIDs.contains(id)) {
+                            sender.sendMessage(ChatColor.RED + "Takový Quest neexistuje.");
+                            break;
+                        }
+                        BananaQuests.finishQuest(player, id);
+                    }
+                    else {
+                        sender.sendMessage(ChatColor.RED + "Chybí jméno hráče.");
+                    }
+                }
+                else if (args.length == 3) {
+                    Player player = Bukkit.getPlayer(args[2]);
+                    if (player == null) {
+                        sender.sendMessage(ChatColor.RED + "Tento hráč není online.");
+                        break;
+                    }
+                    String id = args[1];
+                    if (!BananaQuests.validQuestIDs.contains(id)) {
+                        sender.sendMessage(ChatColor.RED + "Takový Quest neexistuje.");
+                        break;
+                    }
+                    BananaQuests.finishQuest(player, id);
+                }
+                break;
             case "forgetall":
                 if (args.length == 2) {
                     Player player = Bukkit.getPlayer(args[1]);
