@@ -30,12 +30,12 @@ public class QuestadminCommand implements CommandExecutor {
                             forgetQuestCommand(sender, player, questID);
                         }
                         else {
-                            sender.sendMessage(ChatColor.RED + "Tento hráč není online.");
+                            sendPlayerIsntOnline(sender);
                         }
                     }
                 }
                 else {
-                    sender.sendMessage(ChatColor.RED + "Takový Quest neexistuje.");
+                    sendQuestDoesntExist(sender);
                 }
                 break;
             case "forcestartquest":
@@ -45,7 +45,7 @@ public class QuestadminCommand implements CommandExecutor {
                     if (sender instanceof Player player) {
                         String id = args[1];
                         if (!BananaQuests.validQuestIDs.contains(id)) {
-                            sender.sendMessage(ChatColor.RED + "Takový Quest neexistuje.");
+                            sendQuestDoesntExist(sender);
                             break;
                         }
                         BananaQuests.finishQuest(player, id);
@@ -57,12 +57,12 @@ public class QuestadminCommand implements CommandExecutor {
                 else if (args.length == 3) {
                     Player player = Bukkit.getPlayer(args[2]);
                     if (player == null) {
-                        sender.sendMessage(ChatColor.RED + "Tento hráč není online.");
+                        sendPlayerIsntOnline(sender);
                         break;
                     }
                     String id = args[1];
                     if (!BananaQuests.validQuestIDs.contains(id)) {
-                        sender.sendMessage(ChatColor.RED + "Takový Quest neexistuje.");
+                        sendQuestDoesntExist(sender);
                         break;
                     }
                     BananaQuests.finishQuest(player, id);
@@ -93,6 +93,64 @@ public class QuestadminCommand implements CommandExecutor {
                 else
                     sender.sendMessage("BANANAQUESTS Error starting quest");
                 break;
+            case "finishstage": //Bananaquests finishobjective id stage player
+                break;
+            case "finishobjective": //Bananaquests finishobjective id stage obj player
+                Player player;
+                if (args.length == 5) {
+                    player = Bukkit.getPlayer(args[4]);
+                    if (player == null) {
+                        sendPlayerIsntOnline(sender);
+                        return false;
+                    }
+                }
+                else if (args.length == 4) {
+                    if (sender instanceof Player) {
+                        player = (Player) sender;
+                    }
+                    else {
+                        sendPlayerIsntOnline(sender);
+                        return false;
+                    }
+                }
+                else {
+                    sender.sendMessage(ChatColor.RED + "Nesprávný počet argumentů.");
+                    return false;
+                }
+                ActiveQuest quest = BananaQuests.getQuestById(player, args[1]);
+                if (quest == null) {
+                    sendQuestDoesntExist(sender);
+                    return false;
+                }
+
+                int stage;
+                try {
+                    stage = Integer.parseInt(args[2]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(ChatColor.DARK_RED + args[2] + " není číslo.");
+                    return false;
+                }
+                if (quest.getStage() != stage) {
+                    sender.sendMessage(ChatColor.RED + "Neplatná stage.");
+                    return false;
+                }
+
+                int objective;
+                try {
+                    objective = Integer.parseInt(args[3]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(ChatColor.DARK_RED + args[3] + " není číslo.");
+                    return false;
+                }
+                if (quest.getCurrentObjectives().size() < objective) {
+                    sender.sendMessage(ChatColor.RED + "Neplatný objective.");
+                    return false;
+                }
+
+                BananaQuests.finishObjective(quest, stage, objective);
+                sender.sendMessage(ChatColor.GREEN + "Objective byl úspěšně dokončen.");
+
+                break;
             default:
                 sender.sendMessage(ChatColor.RED + "Špatný příkaz.");
                 return false;
@@ -114,5 +172,13 @@ public class QuestadminCommand implements CommandExecutor {
         else {
             sender.sendMessage(ChatColor.RED + "Hráč takový quest nezačal");
         }
+    }
+
+    private void sendPlayerIsntOnline(CommandSender sender) {
+        sender.sendMessage(ChatColor.RED + "Tento hráč není online!");
+    }
+
+    private void sendQuestDoesntExist(CommandSender sender) {
+        sender.sendMessage(ChatColor.RED + "Takový Quest neexistuje!");
     }
 }

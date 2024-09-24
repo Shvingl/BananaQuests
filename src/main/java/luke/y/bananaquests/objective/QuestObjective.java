@@ -28,6 +28,12 @@ public class QuestObjective {
         return finished;
     }
 
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+        owner.getOwner().sendMessage(ChatColor.DARK_GREEN + description + " ✔");
+        owner.getOwner().playSound(owner.getOwner(), Sound.ITEM_BUNDLE_INSERT, 1, 1);
+    }
+
     private boolean finished;
 
     public QuestObjective(String desc, int goal, int progress) {
@@ -36,16 +42,14 @@ public class QuestObjective {
         this.progress = progress;
 
         if (progress >= goal) {
-            finished = true;
+            setFinished(true);
         }
     }
 
     public void increaseProgress(int amount, Player player) {
         progress+=amount;
         if (progress >= goal) {
-            finished = true;
-            player.sendMessage(ChatColor.DARK_GREEN + description + " ✔");
-            player.playSound(player, Sound.ITEM_BUNDLE_INSERT, 1, 1);
+            setFinished(true);
             owner.tryMoveToNextStage();
         }
     }

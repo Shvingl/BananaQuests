@@ -21,7 +21,7 @@ public class QuestadminTabCompletion implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         switch (args.length) {
             case 1 -> {
-                return new ArrayList<>(Arrays.asList("startquest", "forgetquest", "forcestartquest", "forgetall", "finishquest"));
+                return new ArrayList<>(Arrays.asList("startquest", "forgetquest", "forcestartquest", "forgetall", "finishquest", "finishstage", "finishobjective"));
             }
             case 2 -> {
                 if (args[0].equalsIgnoreCase("startquest") || args[0].equalsIgnoreCase("forgetquest") || args[0].equalsIgnoreCase("forcestartquest") || args[0].equalsIgnoreCase("finishquest")) {

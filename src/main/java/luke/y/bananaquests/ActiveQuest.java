@@ -162,7 +162,8 @@ public class ActiveQuest {
                     Bukkit.getLogger().warning(owner.getName() + " má neplatný progress stage " + id + ":" + objectiveID);
                     continue;
                 }
-
+                if (objectiveType == null)
+                    continue;
                 switch (objectiveType) {
                     case "KillMob":
                         EntityType mob = EntityType.fromName(objectiveConfigSection.getString("mob"));
@@ -185,6 +186,8 @@ public class ActiveQuest {
                         String regionID = objectiveConfigSection.getString("region");
                         currentObjectives.add(new EnterRegionObjective(objectiveDescription, objectiveGoal, objectiveProgress, regionID));
                         break;
+                    case "Dummy":
+                        currentObjectives.add(new QuestObjective(objectiveDescription, objectiveGoal, objectiveProgress));
                     case "BlockBreak":
                         break;
                     default:

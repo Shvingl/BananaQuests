@@ -10,6 +10,7 @@ import luke.y.bananaquests.listeners.QuestCompleteListener;
 import luke.y.bananaquests.listeners.objectivelisteners.*;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
+import luke.y.bananaquests.objective.QuestObjective;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -257,6 +258,25 @@ public final class BananaQuests extends JavaPlugin {
             player.sendMessage("DEBUG: Už žádný quest nelze trackovat...");
             trackQuest(player, null);
         }
+    }
+
+    public static void finishStage(ActiveQuest quest, int stage) {
+        if (quest.getStage() != stage)
+            return;
+        for (QuestObjective objective : quest.getCurrentObjectives()) {
+            objective.setFinished(true);
+        }
+        quest.tryMoveToNextStage();
+    }
+
+    public static void finishObjective(ActiveQuest quest, int stage, int objective) {
+        if (quest.getStage() != stage)
+            return;
+        QuestObjective toFinish = quest.getCurrentObjectives().get(objective);
+        if (toFinish == null)
+            return;
+        toFinish.setFinished(true);
+        quest.tryMoveToNextStage();
     }
 
     public static void forgetQuest(Player player, ActiveQuest activeQuest) {
