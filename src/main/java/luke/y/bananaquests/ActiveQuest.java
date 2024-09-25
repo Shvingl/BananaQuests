@@ -2,6 +2,7 @@ package luke.y.bananaquests;
 
 import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.bukkit.MythicBukkit;
+import io.lumine.mythic.core.items.MythicItem;
 import io.lumine.mythic.core.mobs.MobType;
 import luke.y.bananaquests.events.QuestCompleteEvent;
 import luke.y.bananaquests.objective.*;
@@ -164,6 +165,7 @@ public class ActiveQuest {
                 }
                 if (objectiveType == null)
                     continue;
+                int npcID;
                 switch (objectiveType) {
                     case "KillMob":
                         EntityType mob = EntityType.fromName(objectiveConfigSection.getString("mob"));
@@ -185,6 +187,16 @@ public class ActiveQuest {
                     case "EnterRegion":
                         String regionID = objectiveConfigSection.getString("region");
                         currentObjectives.add(new EnterRegionObjective(objectiveDescription, objectiveGoal, objectiveProgress, regionID));
+                        break;
+                    case "RightClickNPC":
+                        npcID = objectiveConfigSection.getInt("npc");
+                        currentObjectives.add(new RightClickNPCObjective(objectiveDescription, objectiveGoal, objectiveProgress, npcID));
+                        break;
+                    case "GiveMythicItemToNPC":
+                        npcID = objectiveConfigSection.getInt("npc");
+                        MythicItem item = MythicBukkit.inst().getItemManager().getItem(objectiveConfigSection.getString("mythicItem")).orElse(null);
+                        if (item != null)
+                            currentObjectives.add(new GiveMythicItemToNPCObjective(objectiveDescription, objectiveGoal, objectiveProgress, npcID, item));
                         break;
                     case "Dummy":
                         currentObjectives.add(new QuestObjective(objectiveDescription, objectiveGoal, objectiveProgress));

@@ -7,12 +7,14 @@ luke\y\bananaquests\listeners\PlayerLeaveListener.class
 luke\y\bananaquests\objective\EnterRegionObjective.class
 luke\y\bananaquests\ActiveQuest.class
 luke\y\bananaquests\commands\QuestadminCommand.class
+luke\y\bananaquests\objective\RightClickNPCObjective.class
 luke\y\bananaquests\BananaQuests.class
 luke\y\bananaquests\commands\QuestadminTabCompletion.class
 luke\y\bananaquests\util\Util.class
 luke\y\bananaquests\objective\FinishShootingGameObjective.class
 luke\y\bananaquests\listeners\objectivelisteners\MythicMobKillListener.class
 luke\y\bananaquests\objective\KillMobObjective.class
+luke\y\bananaquests\listeners\objectivelisteners\RightClickNPCListener.class
 luke\y\bananaquests\listeners\InventoryClickListener.class
 luke\y\bananaquests\listeners\objectivelisteners\OutpostFreeListener.class
 luke\y\bananaquests\listeners\objectivelisteners\FinishShootingGameListener.class
@@ -22,4 +24,5 @@ luke\y\bananaquests\objective\KillMythicMobObjective.class
 luke\y\bananaquests\commands\QuestsCommand.class
 luke\y\bananaquests\util\Gui.class
 luke\y\bananaquests\events\QuestCompleteEvent.class
+luke\y\bananaquests\objective\GiveMythicItemToNPCObjective.class
 luke\y\bananaquests\objective\QuestObjective.class

@@ -5,4 +5,4 @@ api-version: '1.21'
 commands:
   quests:
   questadmin:
-depend: [Outpost, NoteBlockAPI, PlaceholderAPI, ShootingGame, WorldGuard, WGRegionEvents]
+depend: [Outpost, NoteBlockAPI, PlaceholderAPI, ShootingGame, WorldGuard, WGRegionEvents, Citizens]
