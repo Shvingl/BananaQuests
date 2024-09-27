@@ -9,6 +9,8 @@ import luke.y.bananaquests.objective.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -16,6 +18,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class represents an ongoin/finished quest.
@@ -57,6 +61,16 @@ public class ActiveQuest {
         return stage;
     }
 
+    private ArrayList<String> rewards;
+
+    public ArrayList<String> getRewards() {
+        return rewards;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
     private final ArrayList<QuestObjective> currentObjectives = new ArrayList<>();
 
     public ArrayList<QuestObjective> getCurrentObjectives() {
@@ -90,8 +104,19 @@ public class ActiveQuest {
 
         this.display = BananaQuests.questConfigs.get(id).getString("display");
 
-        this.exp = 0;
-        this.money = 0;
+        this.exp = BananaQuests.questConfigs.get(id).getInt("exp");
+        this.money = BananaQuests.questConfigs.get(id).getInt("money");
+        if (BananaQuests.questConfigs.get(id).getList("rewards") != null) {
+            List<?> rawRewards = BananaQuests.questConfigs.get(id).getList("rewards");
+            if (rawRewards != null) {
+                for (Object reward : rawRewards) {
+                    if (reward instanceof String) {
+                        this.rewards.add((String) reward);
+                    }
+                }
+            }
+        }
+
 
         initializeObjectives(progress);
 
@@ -120,6 +145,13 @@ public class ActiveQuest {
     }
 
     private void moveToNextStage() {
+        ArrayList<String> consoleCommands = (ArrayList<String>) BananaQuests.questConfigs.get(id).getConfigurationSection("stages.stage-" + stage).getList("endConsoleCommands");
+        if (consoleCommands != null) {
+            for (String command : consoleCommands) {
+                command = command.replace("%player%", owner.getName());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+            }
+        }
         stage++;
         currentObjectives.clear();
         if (stage > BananaQuests.questConfigs.get(id).getConfigurationSection("stages").getKeys(false).size()) {
@@ -132,6 +164,17 @@ public class ActiveQuest {
 
     public void finishQuest() {
         Bukkit.getServer().getPluginManager().callEvent(new QuestCompleteEvent(owner, id));
+        owner.sendMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Odměny za Quest:");
+        owner.sendMessage(ChatColor.GRAY + "    - " + exp + " RPG EXP");
+        owner.sendMessage(ChatColor.GRAY + "    - " + money + " BananaCoinů");
+        if (rewards != null) {
+            for (String reward : rewards) {
+                owner.sendMessage(ChatColor.GRAY + "    - " + reward);
+            }
+        }
+        Bukkit.dispatchCommand
+                (Bukkit.getConsoleSender().getServer().getConsoleSender(), "mmocore admin exp give LukeWhy135 main " + exp);
+        BananaQuests.econ.depositPlayer(owner, money);
         finished = true;
         if (isTracked()) {
             owner.sendMessage("DEBUG: Tento quest byl tracklý. Pokusím se tracknout nový quest.");

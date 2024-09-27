@@ -12,12 +12,14 @@ import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
 import luke.y.bananaquests.objective.QuestObjective;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -31,6 +33,8 @@ public final class BananaQuests extends JavaPlugin {
     public static final HashMap<Player, ActiveQuest> trackedQuestMap = new HashMap<>();
     public static final HashMap<String, YamlConfiguration> questConfigs = new HashMap<>();
     private final Song song = NBSDecoder.parse(new File(getDataFolder() + "/jingle.nbs"));
+    public static Economy econ = null;
+    public static boolean debug;
 
     public Song getSong() {
         return song;
@@ -38,6 +42,11 @@ public final class BananaQuests extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        debug = false;
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            econ = economyProvider.getProvider();
+        }
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);

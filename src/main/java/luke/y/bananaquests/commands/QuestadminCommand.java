@@ -95,6 +95,15 @@ public class QuestadminCommand implements CommandExecutor {
                 break;
             case "finishstage": //Bananaquests finishobjective id stage player
                 break;
+            case "debug":
+                BananaQuests.debug = !BananaQuests.debug;
+                if (BananaQuests.debug) {
+                    Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(ChatColor.WHITE + "[BANANAQUESTS] Byl zapnut debug mod."));
+                }
+                else {
+                    Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(ChatColor.RED + "[BANANAQUESTS] Byl vypnut debug mod."));
+                }
+                break;
             case "finishobjective": //Bananaquests finishobjective id stage obj player
                 Player player;
                 if (args.length == 5) {
