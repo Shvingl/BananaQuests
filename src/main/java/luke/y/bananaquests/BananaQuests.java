@@ -135,8 +135,18 @@ public final class BananaQuests extends JavaPlugin {
         ArrayList<ActiveQuest> questsToAdd = new ArrayList<>();
         YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 
-        ArrayList<String> finishedQuests = (ArrayList<String>) playerConfig.getList("finished");
-        if (finishedQuests == null || finishedQuests.isEmpty()) {
+        ArrayList<String> finishedQuests = new ArrayList<>();
+
+        List<?> rawFinished = playerConfig.getList("finished");
+        if (rawFinished != null) {
+            for (Object finished : rawFinished) {
+                if (finished instanceof String) {
+                    finishedQuests.add((String) finished);
+                }
+            }
+        }
+
+        if (finishedQuests.isEmpty()) {
             Bukkit.getLogger().info("Hráč " + player.getName() + " nemá žádné hotové questy.");
         }
         else {
@@ -165,11 +175,12 @@ public final class BananaQuests extends JavaPlugin {
 
                 YamlConfiguration questConfig = questConfigs.get(questID);
 
-                if (stage > questConfig.getConfigurationSection("stages").getKeys(false).size()) {
-                    Bukkit.getLogger().warning(player.getName() + " má neplatný stage questu " + questID);
-                    continue;
+                if (questConfig.getConfigurationSection("stages") != null) {
+                        if (stage > questConfig.getConfigurationSection("stages").getKeys(false).size()) {
+                            Bukkit.getLogger().warning(player.getName() + " má neplatný stage questu " + questID);
+                            continue;
+                        }
                 }
-
 
                 ArrayList<Integer> objectivesProgress = new ArrayList<>();
 
@@ -182,7 +193,13 @@ public final class BananaQuests extends JavaPlugin {
         }
 
         activeQuestsMap.put(player, questsToAdd);
-        trackQuest(player, getOngoingQuests(player).get(0));
+        if (!getOngoingQuests(player).isEmpty()) {
+            trackQuest(player, getOngoingQuests(player).get(0));
+        }
+        else if (debug) {
+            player.sendMessage("DEBUG: Nemáš žádný aktivní quest");
+        }
+
     }
 
     public static void finishQuest(Player player, String id) {
