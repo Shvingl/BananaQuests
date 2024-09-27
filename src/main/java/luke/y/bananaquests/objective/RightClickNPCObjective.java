@@ -1,6 +1,8 @@
 package luke.y.bananaquests.objective;
 
-public class RightClickNPCObjective extends QuestObjective{
+import luke.y.bananaquests.QuestObjective;
+
+public class RightClickNPCObjective extends QuestObjective {
 
     private final int npcID;
 

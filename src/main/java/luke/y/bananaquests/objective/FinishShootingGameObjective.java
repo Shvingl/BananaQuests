@@ -1,6 +1,8 @@
 package luke.y.bananaquests.objective;
 
-public class FinishShootingGameObjective extends QuestObjective{
+import luke.y.bananaquests.QuestObjective;
+
+public class FinishShootingGameObjective extends QuestObjective {
 
     private final String gameID;
 

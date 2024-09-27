@@ -1,5 +1,7 @@
 package luke.y.bananaquests.objective;
 
+import luke.y.bananaquests.QuestObjective;
+
 public class RegionEnterObjective extends QuestObjective {
 
     //List<Region> regions;

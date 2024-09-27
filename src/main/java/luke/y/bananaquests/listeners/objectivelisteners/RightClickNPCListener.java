@@ -5,7 +5,7 @@ import io.lumine.mythic.core.items.MythicItem;
 import luke.y.bananaquests.ActiveQuest;
 import luke.y.bananaquests.BananaQuests;
 import luke.y.bananaquests.objective.GiveMythicItemToNPCObjective;
-import luke.y.bananaquests.objective.QuestObjective;
+import luke.y.bananaquests.QuestObjective;
 import luke.y.bananaquests.objective.RightClickNPCObjective;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import org.bukkit.Sound;

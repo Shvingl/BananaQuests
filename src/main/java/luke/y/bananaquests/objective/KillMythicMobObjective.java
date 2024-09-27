@@ -1,9 +1,9 @@
 package luke.y.bananaquests.objective;
 
 import io.lumine.mythic.api.mobs.MythicMob;
-import org.bukkit.entity.EntityType;
+import luke.y.bananaquests.QuestObjective;
 
-public class KillMythicMobObjective extends QuestObjective{
+public class KillMythicMobObjective extends QuestObjective {
 
     private final MythicMob mythicMob;
 

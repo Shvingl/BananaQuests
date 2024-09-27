@@ -1,7 +1,5 @@
-package luke.y.bananaquests.objective;
+package luke.y.bananaquests;
 
-import luke.y.bananaquests.ActiveQuest;
-import luke.y.bananaquests.BananaQuests;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -30,8 +28,15 @@ public class QuestObjective {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
-        owner.getOwner().sendMessage(ChatColor.DARK_GREEN + description + " ✔");
-        owner.getOwner().playSound(owner.getOwner(), Sound.ITEM_BUNDLE_INSERT, 1, 1);
+        if (owner != null && owner.getOwner() != null) {
+            if (owner.isTracked()) {
+                owner.getOwner().sendMessage(ChatColor.DARK_GREEN + description + " ✔");
+            }
+            else {
+                owner.getOwner().sendMessage(ChatColor.DARK_GREEN + owner.getDisplay() + ": " + description + " ✔");
+            }
+            owner.getOwner().playSound(owner.getOwner(), Sound.ITEM_BUNDLE_INSERT, 1, 1);
+        }
     }
 
     private boolean finished;

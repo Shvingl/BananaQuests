@@ -1,10 +1,9 @@
 package luke.y.bananaquests.objective;
 
+import luke.y.bananaquests.QuestObjective;
 import org.bukkit.entity.EntityType;
 
-import javax.swing.text.html.parser.Entity;
-
-public class KillMobObjective extends QuestObjective{
+public class KillMobObjective extends QuestObjective {
 
     private final EntityType mob;
 

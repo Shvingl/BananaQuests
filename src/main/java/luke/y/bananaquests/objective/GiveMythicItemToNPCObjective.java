@@ -1,8 +1,9 @@
 package luke.y.bananaquests.objective;
 
 import io.lumine.mythic.core.items.MythicItem;
+import luke.y.bananaquests.QuestObjective;
 
-public class GiveMythicItemToNPCObjective extends QuestObjective{
+public class GiveMythicItemToNPCObjective extends QuestObjective {
 
     private final int npcID;
 

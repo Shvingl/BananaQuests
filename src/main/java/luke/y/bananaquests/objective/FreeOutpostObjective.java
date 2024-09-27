@@ -1,6 +1,8 @@
 package luke.y.bananaquests.objective;
 
-public class FreeOutpostObjective extends QuestObjective{
+import luke.y.bananaquests.QuestObjective;
+
+public class FreeOutpostObjective extends QuestObjective {
 
     private final String outpostID;
 

@@ -3,7 +3,7 @@ package luke.y.bananaquests.listeners.objectivelisteners;
 import luke.y.bananaquests.ActiveQuest;
 import luke.y.bananaquests.BananaQuests;
 import luke.y.bananaquests.objective.KillMobObjective;
-import luke.y.bananaquests.objective.QuestObjective;
+import luke.y.bananaquests.QuestObjective;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

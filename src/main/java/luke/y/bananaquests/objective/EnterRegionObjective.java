@@ -1,6 +1,8 @@
 package luke.y.bananaquests.objective;
 
-public class EnterRegionObjective extends QuestObjective{
+import luke.y.bananaquests.QuestObjective;
+
+public class EnterRegionObjective extends QuestObjective {
 
     private final String regionID;
 

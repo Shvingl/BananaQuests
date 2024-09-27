@@ -10,8 +10,6 @@ import luke.y.bananaquests.listeners.QuestCompleteListener;
 import luke.y.bananaquests.listeners.objectivelisteners.*;
 import luke.y.bananaquests.listeners.PlayerJoinListener;
 import luke.y.bananaquests.listeners.PlayerLeaveListener;
-import luke.y.bananaquests.objective.QuestObjective;
-import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -114,6 +112,14 @@ public final class BananaQuests extends JavaPlugin {
 
         playerConfig.set("finished", finishedIDS);
 
+        ActiveQuest tracked = trackedQuestMap.get(player);
+        if (tracked != null) {
+            playerConfig.set("tracked", tracked.getId());
+        }
+        else {
+            playerConfig.set("tracked", null);
+        }
+
         try {
             playerConfig.save(playerFile);
         } catch (Exception e) {
@@ -194,7 +200,13 @@ public final class BananaQuests extends JavaPlugin {
 
         activeQuestsMap.put(player, questsToAdd);
         if (!getOngoingQuests(player).isEmpty()) {
-            trackQuest(player, getOngoingQuests(player).get(0));
+            String trackedID = playerConfig.getString("tracked");
+            if (trackedID != null) {
+                trackQuest(player, getQuestById(player, trackedID));
+                if (debug) {
+                    player.sendMessage("DEBUG: Byl načten tvůj předtím tracklý quest");
+                }
+            }
         }
         else if (debug) {
             player.sendMessage("DEBUG: Nemáš žádný aktivní quest");

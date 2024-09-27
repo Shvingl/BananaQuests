@@ -3,22 +3,16 @@ package luke.y.bananaquests;
 import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.items.MythicItem;
-import io.lumine.mythic.core.mobs.MobType;
 import luke.y.bananaquests.events.QuestCompleteEvent;
 import luke.y.bananaquests.objective.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -86,7 +80,7 @@ public class ActiveQuest {
         return null;
     }
 
-    private boolean isTracked() {
+    public boolean isTracked() {
         return (BananaQuests.trackedQuestMap.get(owner) == this);
     }
 

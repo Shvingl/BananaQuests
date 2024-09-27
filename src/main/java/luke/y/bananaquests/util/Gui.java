@@ -2,12 +2,11 @@ package luke.y.bananaquests.util;
 
 import luke.y.bananaquests.ActiveQuest;
 import luke.y.bananaquests.BananaQuests;
-import luke.y.bananaquests.objective.QuestObjective;
+import luke.y.bananaquests.QuestObjective;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
