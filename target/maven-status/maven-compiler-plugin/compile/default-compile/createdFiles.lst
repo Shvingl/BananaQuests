@@ -2,7 +2,6 @@ luke\y\bananaquests\listeners\objectivelisteners\MobKillListener.class
 luke\y\bananaquests\listeners\QuestCompleteListener.class
 luke\y\bananaquests\BananaQuestsExpansion.class
 luke\y\bananaquests\QuestObjective.class
-luke\y\bananaquests\objective\RegionEnterObjective.class
 luke\y\bananaquests\listeners\objectivelisteners\RegionEnterListener.class
 luke\y\bananaquests\listeners\PlayerLeaveListener.class
 luke\y\bananaquests\objective\EnterRegionObjective.class

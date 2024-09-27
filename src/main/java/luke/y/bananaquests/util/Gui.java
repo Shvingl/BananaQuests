@@ -26,10 +26,12 @@ public class Gui {
         inventory.setContents(createShell(player).getStorageContents());
         ItemStack activeButton = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
         ItemMeta activeButtonMeta = activeButton.getItemMeta();
-        activeButtonMeta.addEnchant(Enchantment.MENDING, 1, true);
-        activeButtonMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        activeButtonMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + activeTitle.toUpperCase());
-        activeButton.setItemMeta(activeButtonMeta);
+        if (activeButtonMeta != null) {
+            activeButtonMeta.addEnchant(Enchantment.MENDING, 1, true);
+            activeButtonMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            activeButtonMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + activeTitle.toUpperCase());
+            activeButton.setItemMeta(activeButtonMeta);
+        }
         inventory.setItem(9*2-1, activeButton);
         
 

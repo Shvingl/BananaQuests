@@ -20,14 +20,14 @@ import java.util.List;
  * Must belong to a specific online player's quest list.
  */
 public class ActiveQuest {
-    private String id;
+    private final String id;
 
     public String getId() {
         return id;
     }
 
-    private Player owner;
-    private int exp;
+    private final Player owner;
+    private final int exp;
 
     public int getEXP() {
         return exp;
@@ -37,13 +37,13 @@ public class ActiveQuest {
         return money;
     }
 
-    private int money;
+    private final int money;
 
     public Player getOwner() {
         return owner;
     }
 
-    private String display;
+    private final String display;
 
     public String getDisplay() {
         return display;
@@ -59,10 +59,6 @@ public class ActiveQuest {
 
     public ArrayList<String> getRewards() {
         return rewards;
-    }
-
-    public int getExp() {
-        return exp;
     }
 
     private final ArrayList<QuestObjective> currentObjectives = new ArrayList<>();

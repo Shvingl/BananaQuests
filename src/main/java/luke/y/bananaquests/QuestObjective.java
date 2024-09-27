@@ -8,7 +8,7 @@ public class QuestObjective {
     private ActiveQuest owner;
     private final int goal;
     private int progress;
-    private String description;
+    private final String description;
 
     public String getDescription() {
         return description;
@@ -52,6 +52,10 @@ public class QuestObjective {
     }
 
     public void increaseProgress(int amount, Player player) {
+        if (player != owner.getOwner()) {
+            player.sendMessage(ChatColor.DARK_RED + "Fatální chyba: Tvá akce se snaží splnit quest jiného hráče. Kontaktuj admina se screenshotem.");
+            return;
+        }
         progress+=amount;
         if (progress >= goal) {
             setFinished(true);
