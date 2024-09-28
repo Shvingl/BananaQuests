@@ -55,7 +55,7 @@ public class ActiveQuest {
         return stage;
     }
 
-    private ArrayList<String> rewards;
+    private final ArrayList<String> rewards = new ArrayList<>();
 
     public ArrayList<String> getRewards() {
         return rewards;
@@ -135,15 +135,20 @@ public class ActiveQuest {
     }
 
     private void moveToNextStage() {
-        ArrayList<String> consoleCommands = (ArrayList<String>) BananaQuests.questConfigs.get(id).getConfigurationSection("stages.stage-" + stage).getList("endConsoleCommands");
-        if (consoleCommands != null) {
-            for (String command : consoleCommands) {
-                command = command.replace("%player%", owner.getName());
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+        ArrayList<String> consoleCommands = new ArrayList<>();
+        List<?> rawEndCommands = BananaQuests.questConfigs.get(id).getConfigurationSection("stages.stage-" + stage).getList("endConsoleCommands");
+        for (Object rawEndCommand : rawEndCommands) {
+            if (rawEndCommand instanceof String) {
+                consoleCommands.add((String) rawEndCommand);
             }
+        }
+        for (String command : consoleCommands) {
+            command = command.replace("%player%", owner.getName());
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
         }
         stage++;
         currentObjectives.clear();
+
         if (stage > BananaQuests.questConfigs.get(id).getConfigurationSection("stages").getKeys(false).size()) {
             finishQuest();
             return;
@@ -157,10 +162,8 @@ public class ActiveQuest {
         owner.sendMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Odměny za Quest:");
         owner.sendMessage(ChatColor.GRAY + "    - " + exp + " RPG EXP");
         owner.sendMessage(ChatColor.GRAY + "    - " + money + " BananaCoinů");
-        if (rewards != null) {
-            for (String reward : rewards) {
-                owner.sendMessage(ChatColor.GRAY + "    - " + reward);
-            }
+        for (String reward : rewards) {
+            owner.sendMessage(ChatColor.GRAY + "    - " + reward);
         }
         Bukkit.dispatchCommand
                 (Bukkit.getConsoleSender().getServer().getConsoleSender(), "mmocore admin exp give LukeWhy135 main " + exp);
@@ -201,7 +204,7 @@ public class ActiveQuest {
                 int npcID;
                 switch (objectiveType) {
                     case "KillMob":
-                        EntityType mob = EntityType.fromName(objectiveConfigSection.getString("mob"));
+                        EntityType mob = EntityType.valueOf(objectiveConfigSection.getString("mob"));
                         currentObjectives.add(new KillMobObjective(objectiveDescription, objectiveGoal, objectiveProgress, mob));
                         break;
                     case "KillMythicMob":
@@ -227,7 +230,8 @@ public class ActiveQuest {
                         break;
                     case "GiveMythicItemToNPC":
                         npcID = objectiveConfigSection.getInt("npc");
-                        MythicItem item = MythicBukkit.inst().getItemManager().getItem(objectiveConfigSection.getString("mythicItem")).orElse(null);
+                        MythicItem item;
+                        item = MythicBukkit.inst().getItemManager().getItem(objectiveConfigSection.getString("mythicItem")).orElse(null);
                         if (item != null)
                             currentObjectives.add(new GiveMythicItemToNPCObjective(objectiveDescription, objectiveGoal, objectiveProgress, npcID, item));
                         break;

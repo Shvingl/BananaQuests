@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -46,11 +47,23 @@ public class Gui {
         ItemStack questItem = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta questItemMeta = questItem.getItemMeta();
         if (tracked) {
-            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay() + ChatColor.RESET + "" + ChatColor.DARK_GREEN + " ⚐");
+            if (questItemMeta != null)
+                questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay() + ChatColor.RESET + ChatColor.DARK_GREEN + " ⚐");
         }
         else {
-            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay());
+            if (questItemMeta != null)
+               questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay());
         }
+        ArrayList<String> lore = getActiveItemLore(activeQuest, tracked);
+        if (questItemMeta != null) {
+            questItemMeta.setLore(lore);
+            questItem.setItemMeta(questItemMeta);
+        }
+        return questItem;
+    }
+
+    @NotNull
+    private static ArrayList<String> getActiveItemLore(ActiveQuest activeQuest, boolean tracked) {
         ArrayList<String> lore = new ArrayList<>();
         lore.add("");
         int objectiveCount = activeQuest.getCurrentObjectives().size();
@@ -67,13 +80,14 @@ public class Gui {
         lore.add(ChatColor.BOLD + "" + ChatColor.GRAY + "Odměny:");
         lore.add(ChatColor.DARK_GRAY + "- "+ activeQuest.getEXP() + " EXP");
         lore.add(ChatColor.DARK_GRAY + "- "+ activeQuest.getMoney() + " BCoinů");
+        for (String reward : activeQuest.getRewards()) {
+            lore.add(ChatColor.DARK_GRAY + "- " + reward);
+        }
         if (tracked) {
             lore.add("");
             lore.add(ChatColor.DARK_GREEN + "» SLEDOVANÝ QUEST «");
         }
-        questItemMeta.setLore(lore);
-        questItem.setItemMeta(questItemMeta);
-        return questItem;
+        return lore;
     }
 
     public static void openFinishedQuestsGUI(Player player) {
@@ -81,10 +95,13 @@ public class Gui {
         inventory.setContents(createShell(player).getStorageContents());
         ItemStack activeButton = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
         ItemMeta activeButtonMeta = activeButton.getItemMeta();
-        activeButtonMeta.addEnchant(Enchantment.MENDING, 1, true);
-        activeButtonMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        activeButtonMeta.setDisplayName(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + finishedTitle.toUpperCase());
-        activeButton.setItemMeta(activeButtonMeta);
+        if (activeButtonMeta != null) {
+            activeButtonMeta.addEnchant(Enchantment.MENDING, 1, true);
+            activeButtonMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            activeButtonMeta.setDisplayName(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + finishedTitle.toUpperCase());
+            activeButton.setItemMeta(activeButtonMeta);
+        }
+
         inventory.setItem(9*3-1, activeButton);
 
         ItemStack questItem = new ItemStack(Material.ENCHANTED_BOOK);
@@ -92,9 +109,12 @@ public class Gui {
 
         ArrayList<String> lore = new ArrayList<>(List.of(ChatColor.DARK_GRAY + "Tento Quest už byl dokončen."));
         for (ActiveQuest activeQuest : BananaQuests.getFinishedQuests(player)) {
-            questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay());
-            questItemMeta.setLore(lore);
-            questItem.setItemMeta(questItemMeta);
+            if (questItemMeta != null) {
+                questItemMeta.setDisplayName(ChatColor.BOLD + activeQuest.getDisplay());
+                questItemMeta.setLore(lore);
+                questItem.setItemMeta(questItemMeta);
+            }
+
             inventory.addItem(questItem);
         }
         player.openInventory(inventory);
@@ -105,10 +125,13 @@ public class Gui {
         inventory.setContents(createShell(player).getStorageContents());
         ItemStack activeButton = new ItemStack(Material.RED_STAINED_GLASS_PANE);
         ItemMeta activeButtonMeta = activeButton.getItemMeta();
-        activeButtonMeta.addEnchant(Enchantment.MENDING, 1, true);
-        activeButtonMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        activeButtonMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + unstartedTitle.toUpperCase());
-        activeButton.setItemMeta(activeButtonMeta);
+        if (activeButtonMeta != null) {
+            activeButtonMeta.addEnchant(Enchantment.MENDING, 1, true);
+            activeButtonMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            activeButtonMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + unstartedTitle.toUpperCase());
+            activeButton.setItemMeta(activeButtonMeta);
+        }
+
         inventory.setItem(9*4-1, activeButton);
 
 
@@ -120,12 +143,16 @@ public class Gui {
         for (String questID : allQuestIDs) {
             ItemStack questItem = new ItemStack(Material.BOOK);
             ItemMeta questItemMeta = questItem.getItemMeta();
-            questItemMeta.setDisplayName(ChatColor.BOLD + BananaQuests.questConfigs.get(questID).getString("display"));
+            if (questItemMeta != null)
+                questItemMeta.setDisplayName(ChatColor.BOLD + BananaQuests.questConfigs.get(questID).getString("display"));
             ArrayList<String> lore = new ArrayList<>();
             lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Nápověda:");
             lore.add(ChatColor.GRAY + BananaQuests.questConfigs.get(questID).getString("hint"));
-            questItemMeta.setLore(lore);
-            questItem.setItemMeta(questItemMeta);
+            if (questItemMeta != null) {
+                questItemMeta.setLore(lore);
+                questItem.setItemMeta(questItemMeta);
+            }
+
             inventory.addItem(questItem);
         }
 

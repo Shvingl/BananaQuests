@@ -59,30 +59,37 @@ public final class BananaQuests extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RightClickNPCListener(), this);
 
         Objects.requireNonNull(getCommand("quests")).setExecutor(new QuestsCommand());
-        Objects.requireNonNull(getCommand("questadmin")).setExecutor(new QuestadminCommand());
-        getCommand("questadmin").setTabCompleter(new QuestadminTabCompletion());
-
-
-        //Projit všechny quest .yml soubory a dát je do validQuestIDs
-        for (File file : Objects.requireNonNull(new File(this.getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles())) {
-            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-            String questID = file.getName().replace(".yml", "");
-            questConfigs.put(questID, config);
-        }
-        validQuestIDs = questConfigs.keySet();
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            loadPlayersQuests(player);
-        }
+        Objects.requireNonNull(getCommand("questadmin")).setExecutor(new QuestadminCommand(this));
+        Objects.requireNonNull(getCommand("questadmin")).setTabCompleter(new QuestadminTabCompletion());
+        
+        loadQuestConfigs();
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new BananaQuestsExpansion(this).register();
         }
     }
 
+    public void loadQuestConfigs() {
+        validQuestIDs.clear();
+        questConfigs.clear();
+        for (File file : Objects.requireNonNull(new File(getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles())) {
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+            String questID = file.getName().replace(".yml", "");
+            questConfigs.put(questID, config);
+        }
+        validQuestIDs = questConfigs.keySet();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            loadPlayersQuests(player);
+        }
+    }
+
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        saveAllPlayersQuests();
+    }
+
+    public void saveAllPlayersQuests() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             savePlayersQuests(player);
         }
@@ -339,7 +346,7 @@ public final class BananaQuests extends JavaPlugin {
         return playerFile;
     }
 
-    private void createEmptyFile(File file) {
+    private static void createEmptyFile(File file) {
         YamlConfiguration empty = new YamlConfiguration();
         try {
             empty.save(file);

@@ -11,6 +11,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class QuestadminCommand implements CommandExecutor {
+    private BananaQuests plugin;
+
+    public QuestadminCommand(BananaQuests plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
@@ -92,6 +98,11 @@ public class QuestadminCommand implements CommandExecutor {
                 }
                 else
                     sender.sendMessage("BANANAQUESTS Error starting quest");
+                break;
+            case "reload":
+                plugin.saveAllPlayersQuests();
+                plugin.loadQuestConfigs();
+                sender.sendMessage(ChatColor.GREEN + "Reloaded quest configs.");
                 break;
             case "finishstage": //Bananaquests finishobjective id stage player
                 break;
