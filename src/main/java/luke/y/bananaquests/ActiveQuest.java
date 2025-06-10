@@ -135,17 +135,7 @@ public class ActiveQuest {
     }
 
     private void moveToNextStage() {
-        ArrayList<String> consoleCommands = new ArrayList<>();
-        List<?> rawEndCommands = BananaQuests.questConfigs.get(id).getConfigurationSection("stages.stage-" + stage).getList("endConsoleCommands");
-        for (Object rawEndCommand : rawEndCommands) {
-            if (rawEndCommand instanceof String) {
-                consoleCommands.add((String) rawEndCommand);
-            }
-        }
-        for (String command : consoleCommands) {
-            command = command.replace("%player%", owner.getName());
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-        }
+        int previousStage = stage;
         stage++;
         currentObjectives.clear();
 
@@ -153,8 +143,25 @@ public class ActiveQuest {
             finishQuest();
             return;
         }
+        executeEndStageCommands(previousStage);
 
         initializeObjectives(new ArrayList<>());
+    }
+
+    private void executeEndStageCommands(int stage) {
+        ArrayList<String> consoleCommands = new ArrayList<>();
+        List<?> rawEndCommands = BananaQuests.questConfigs.get(id).getConfigurationSection("stages.stage-" + stage).getList("endConsoleCommands");
+        if (rawEndCommands != null) {
+            for (Object rawEndCommand : rawEndCommands) {
+                if (rawEndCommand instanceof String) {
+                    consoleCommands.add((String) rawEndCommand);
+                }
+            }
+        }
+        for (String command : consoleCommands) {
+            command = command.replace("%player%", owner.getName());
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+        }
     }
 
     public void finishQuest() {
@@ -170,7 +177,7 @@ public class ActiveQuest {
         BananaQuests.econ.depositPlayer(owner, money);
         finished = true;
         if (isTracked()) {
-            owner.sendMessage("DEBUG: Tento quest byl tracklý. Pokusím se tracknout nový quest.");
+            if (owner.isOp()) owner.sendMessage("DEBUG: Tento quest byl tracklý. Pokusím se tracknout nový quest.");
             BananaQuests.trackNewQuest(owner);
         }
     }

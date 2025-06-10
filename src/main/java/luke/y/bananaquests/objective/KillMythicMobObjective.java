@@ -2,6 +2,7 @@ package luke.y.bananaquests.objective;
 
 import io.lumine.mythic.api.mobs.MythicMob;
 import luke.y.bananaquests.QuestObjective;
+import org.bukkit.Bukkit;
 
 public class KillMythicMobObjective extends QuestObjective {
 

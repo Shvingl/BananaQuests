@@ -70,7 +70,6 @@ public final class BananaQuests extends JavaPlugin {
     }
 
     public void loadQuestConfigs() {
-        validQuestIDs.clear();
         questConfigs.clear();
         for (File file : Objects.requireNonNull(new File(getDataFolder().getAbsolutePath() + File.separator + "quests").listFiles())) {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
