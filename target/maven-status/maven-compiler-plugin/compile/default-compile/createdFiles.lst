@@ -1,6 +1,7 @@
 luke\y\bananaquests\listeners\objectivelisteners\MobKillListener.class
 luke\y\bananaquests\listeners\QuestCompleteListener.class
 luke\y\bananaquests\BananaQuestsExpansion.class
+luke\y\bananaquests\commands\ForceForgetQuestCommand.class
 luke\y\bananaquests\QuestObjective.class
 luke\y\bananaquests\listeners\objectivelisteners\RegionEnterListener.class
 luke\y\bananaquests\listeners\PlayerLeaveListener.class
@@ -10,6 +11,7 @@ luke\y\bananaquests\commands\QuestadminCommand.class
 luke\y\bananaquests\objective\RightClickNPCObjective.class
 luke\y\bananaquests\BananaQuests.class
 luke\y\bananaquests\commands\QuestadminTabCompletion.class
+luke\y\bananaquests\listeners\KillMythicMobListener.class
 luke\y\bananaquests\util\Util.class
 luke\y\bananaquests\objective\FinishShootingGameObjective.class
 luke\y\bananaquests\listeners\objectivelisteners\MythicMobKillListener.class
@@ -20,8 +22,10 @@ luke\y\bananaquests\listeners\objectivelisteners\OutpostFreeListener.class
 luke\y\bananaquests\listeners\objectivelisteners\FinishShootingGameListener.class
 luke\y\bananaquests\listeners\PlayerJoinListener.class
 luke\y\bananaquests\objective\FreeOutpostObjective.class
+luke\y\bananaquests\commands\ForgetQuestCommand.class
 luke\y\bananaquests\objective\KillMythicMobObjective.class
 luke\y\bananaquests\commands\QuestsCommand.class
 luke\y\bananaquests\util\Gui.class
 luke\y\bananaquests\events\QuestCompleteEvent.class
 luke\y\bananaquests\objective\GiveMythicItemToNPCObjective.class
+luke\y\bananaquests\objective\QuestObjective.class

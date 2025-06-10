@@ -1,0 +1,14 @@
+Test:
+  stages:
+    stage-1:
+      type: kill
+      mob: chicken
+      goal: 4
+    stage-2:
+      type: kill
+      mob: cow
+      goal: 4
+Test2:
+  stages:
+    stage-1:
+      zdar: zdar

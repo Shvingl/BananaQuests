@@ -4,7 +4,7 @@
   <groupId>luke.y</groupId>
   <artifactId>BananaQuests</artifactId>
   <name>BananaQuests</name>
-  <version>1.0</version>
+  <version>1.1</version>
   <build>
     <resources>
       <resource>
@@ -132,14 +132,14 @@
       <artifactId>outpost</artifactId>
       <version>1.0</version>
       <scope>system</scope>
-      <systemPath>D:/.Recovering 3/.Server-Bananacraft-5/plugins/Outpost-1.0.jar</systemPath>
+      <systemPath>D:/.Recovering 3/.Server-Bananacraft-5-2025-BUILD/plugins/Outpost-1.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>luke.y</groupId>
       <artifactId>shootingGame</artifactId>
       <version>1.0</version>
       <scope>system</scope>
-      <systemPath>C:/Users/Lukas/IdeaProjects/ShootingGame/target/shootinggame-1.0.jar</systemPath>
+      <systemPath>D:/.Recovering 3/.Server-Bananacraft-5-2025-BUILD/plugins/shootinggame-1.0.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>
