@@ -3,6 +3,7 @@ package luke.y.bananaquests.util;
 import luke.y.bananaquests.ActiveQuest;
 import luke.y.bananaquests.BananaQuests;
 import luke.y.bananaquests.QuestObjective;
+import luke.y.bananaquests.UnstartedQuest;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Gui {
@@ -135,19 +137,16 @@ public class Gui {
         inventory.setItem(9*4-1, activeButton);
 
 
-        Set<String> allQuestIDs = new HashSet<>(BananaQuests.validQuestIDs);
-        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
-            allQuestIDs.remove(activeQuest.getId());
-        }
+        ArrayList<UnstartedQuest> unstartedQuests = BananaQuests.unstartedQuestsMap.get(player);
 
-        for (String questID : allQuestIDs) {
+        for (UnstartedQuest unstartedQuest : unstartedQuests) {
             ItemStack questItem = new ItemStack(Material.BOOK);
             ItemMeta questItemMeta = questItem.getItemMeta();
             if (questItemMeta != null)
-                questItemMeta.setDisplayName(ChatColor.BOLD + BananaQuests.questConfigs.get(questID).getString("display"));
+                questItemMeta.setDisplayName(ChatColor.BOLD + unstartedQuest.getDisplay());
             ArrayList<String> lore = new ArrayList<>();
             lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Nápověda:");
-            lore.add(ChatColor.GRAY + BananaQuests.questConfigs.get(questID).getString("hint"));
+            lore.add(ChatColor.GRAY + unstartedQuest.getHint());
             if (questItemMeta != null) {
                 questItemMeta.setLore(lore);
                 questItem.setItemMeta(questItemMeta);

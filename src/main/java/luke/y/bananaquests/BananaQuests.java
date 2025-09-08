@@ -13,10 +13,13 @@ import luke.y.bananaquests.listeners.PlayerLeaveListener;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,8 +31,10 @@ public final class BananaQuests extends JavaPlugin {
 
     public static Set<String> validQuestIDs = new HashSet<>();
     public static final HashMap<Player, ArrayList<ActiveQuest>> activeQuestsMap = new HashMap<>();
+    public static final HashMap<Player, ArrayList<UnstartedQuest>> unstartedQuestsMap = new HashMap<>();
     public static final HashMap<Player, ActiveQuest> trackedQuestMap = new HashMap<>();
     public static final HashMap<String, YamlConfiguration> questConfigs = new HashMap<>();
+
     private final Song song = NBSDecoder.parse(new File(getDataFolder() + "/jingle.nbs"));
     public static Economy econ = null;
     public static boolean debug;
@@ -67,6 +72,13 @@ public final class BananaQuests extends JavaPlugin {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new BananaQuestsExpansion(this).register();
         }
+
+        getServer().getScheduler().runTaskTimer(
+                this,
+                this::saveAllPlayersQuests,
+                0L,
+                5 * 60 * 20L
+        );
     }
 
     public void loadQuestConfigs() {
@@ -92,6 +104,7 @@ public final class BananaQuests extends JavaPlugin {
         for (Player player : Bukkit.getOnlinePlayers()) {
             savePlayersQuests(player);
         }
+        Bukkit.getLogger().info("[BananaQuests] Byly uloženy pokroky questů.");
     }
 
     /**
@@ -217,6 +230,19 @@ public final class BananaQuests extends JavaPlugin {
         else if (debug) {
             player.sendMessage("DEBUG: Nemáš žádný aktivní quest");
         }
+
+        ArrayList<UnstartedQuest> unstartedQuests = new ArrayList<>();
+
+        Set<String> allQuestIDs = new HashSet<>(BananaQuests.validQuestIDs);
+        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
+            allQuestIDs.remove(activeQuest.getId());
+        }
+
+        for (String questID : allQuestIDs) {
+            unstartedQuests.add(new UnstartedQuest(questID, questConfigs.get(questID).getString("display"), questConfigs.get(questID).getString("hint")));
+        }
+
+        unstartedQuestsMap.put(player, unstartedQuests);
 
     }
 

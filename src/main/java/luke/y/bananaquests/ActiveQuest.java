@@ -27,6 +27,7 @@ public class ActiveQuest {
     }
 
     private final Player owner;
+
     private final int exp;
 
     public int getEXP() {
@@ -94,6 +95,7 @@ public class ActiveQuest {
 
         this.display = BananaQuests.questConfigs.get(id).getString("display");
 
+        //Načítání informací dle quest blueprintu
         this.exp = BananaQuests.questConfigs.get(id).getInt("exp");
         this.money = BananaQuests.questConfigs.get(id).getInt("money");
         if (BananaQuests.questConfigs.get(id).getList("rewards") != null) {
@@ -208,7 +210,7 @@ public class ActiveQuest {
                 }
                 if (objectiveType == null)
                     continue;
-                int npcID;
+                int startNPCID;
                 switch (objectiveType) {
                     case "KillMob":
                         EntityType mob = EntityType.valueOf(objectiveConfigSection.getString("mob"));
@@ -232,15 +234,15 @@ public class ActiveQuest {
                         currentObjectives.add(new EnterRegionObjective(objectiveDescription, objectiveGoal, objectiveProgress, regionID));
                         break;
                     case "RightClickNPC":
-                        npcID = objectiveConfigSection.getInt("npc");
-                        currentObjectives.add(new RightClickNPCObjective(objectiveDescription, objectiveGoal, objectiveProgress, npcID));
+                        startNPCID = objectiveConfigSection.getInt("npc");
+                        currentObjectives.add(new RightClickNPCObjective(objectiveDescription, objectiveGoal, objectiveProgress, startNPCID));
                         break;
                     case "GiveMythicItemToNPC":
-                        npcID = objectiveConfigSection.getInt("npc");
+                        startNPCID = objectiveConfigSection.getInt("npc");
                         MythicItem item;
                         item = MythicBukkit.inst().getItemManager().getItem(objectiveConfigSection.getString("mythicItem")).orElse(null);
                         if (item != null)
-                            currentObjectives.add(new GiveMythicItemToNPCObjective(objectiveDescription, objectiveGoal, objectiveProgress, npcID, item));
+                            currentObjectives.add(new GiveMythicItemToNPCObjective(objectiveDescription, objectiveGoal, objectiveProgress, startNPCID, item));
                         break;
                     case "Dummy":
                         currentObjectives.add(new QuestObjective(objectiveDescription, objectiveGoal, objectiveProgress));

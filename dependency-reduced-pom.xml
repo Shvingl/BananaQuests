@@ -132,14 +132,14 @@
       <artifactId>outpost</artifactId>
       <version>1.0</version>
       <scope>system</scope>
-      <systemPath>D:/.Recovering 3/.Server-Bananacraft-5-2025-BUILD/plugins/Outpost-1.0.jar</systemPath>
+      <systemPath>C:/.Bananacraft 5 (Záloha 06 09 2025)/plugins/Outpost-1.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>luke.y</groupId>
       <artifactId>shootingGame</artifactId>
       <version>1.0</version>
       <scope>system</scope>
-      <systemPath>D:/.Recovering 3/.Server-Bananacraft-5-2025-BUILD/plugins/shootinggame-1.0.jar</systemPath>
+      <systemPath>C:/.Bananacraft 5 (Záloha 06 09 2025)/plugins/shootinggame-1.0.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>
