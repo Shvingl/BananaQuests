@@ -23,9 +23,21 @@ public class UnstartedQuest {
 
     private int startNPCID = -1;
 
-    public UnstartedQuest(String id, String display, String hint) {
+    public int getStartNPCID() {
+        return startNPCID;
+    }
+
+    private final int level;
+
+    public int getLevel() {
+        return level;
+    }
+
+    public UnstartedQuest(String id, String display, String hint, int startNPCID, int level) {
         this.id = id;
         this.display = display;
         this.hint = hint;
+        this.startNPCID = startNPCID;
+        this.level = level;
     }
 }

@@ -1,31 +1,32 @@
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\ActiveQuest.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\PlayerLeaveListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\KillMythicMobListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\QuestCompleteListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\InventoryClickListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\EnterRegionObjective.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\BananaQuests.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMythicMobObjective.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\ForgetQuestCommand.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\FreeOutpostObjective.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\GiveMythicItemToNPCObjective.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\QuestObjective.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestadminCommand.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\OutpostFreeListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMobObjective.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\BananaQuestsExpansion.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\MythicMobKillListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\ForceForgetQuestCommand.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\RegionEnterListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\RightClickNPCObjective.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\FinishShootingGameObjective.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\events\QuestCompleteEvent.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestsCommand.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestadminTabCompletion.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\FinishShootingGameListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\QuestObjective.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\MobKillListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\util\Gui.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\PlayerJoinListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\RightClickNPCListener.java
-D:\.Recovering 3\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\util\Util.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\RightClickNPCListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\QuestObjective.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\UnstartedQuest.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\QuestObjective.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\MobKillListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\ActiveQuest.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\MythicMobKillListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\RightClickNPCObjective.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestadminCommand.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\util\Gui.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\GiveMythicItemToNPCObjective.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestadminTabCompletion.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\RegionEnterListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\QuestsCommand.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\ForceForgetQuestCommand.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\util\Util.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\commands\ForgetQuestCommand.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\OutpostFreeListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\EnterRegionObjective.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\objectivelisteners\FinishShootingGameListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\events\QuestCompleteEvent.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\InventoryClickListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMobObjective.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\QuestCompleteListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\FinishShootingGameObjective.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\BananaQuests.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\PlayerJoinListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\FreeOutpostObjective.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\KillMythicMobListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\BananaQuestsExpansion.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\listeners\PlayerLeaveListener.java
+C:\IdeaProjects\BananaQuests\src\main\java\luke\y\bananaquests\objective\KillMythicMobObjective.java

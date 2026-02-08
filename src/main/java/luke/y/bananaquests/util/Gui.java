@@ -138,6 +138,7 @@ public class Gui {
 
 
         ArrayList<UnstartedQuest> unstartedQuests = BananaQuests.unstartedQuestsMap.get(player);
+        unstartedQuests.sort(Comparator.comparingInt(UnstartedQuest::getLevel));
 
         for (UnstartedQuest unstartedQuest : unstartedQuests) {
             ItemStack questItem = new ItemStack(Material.BOOK);
@@ -147,6 +148,7 @@ public class Gui {
             ArrayList<String> lore = new ArrayList<>();
             lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Nápověda:");
             lore.add(ChatColor.GRAY + unstartedQuest.getHint());
+            if (player.isOp()) lore.add(ChatColor.GRAY + "NPC ID: " + unstartedQuest.getStartNPCID());
             if (questItemMeta != null) {
                 questItemMeta.setLore(lore);
                 questItem.setItemMeta(questItemMeta);

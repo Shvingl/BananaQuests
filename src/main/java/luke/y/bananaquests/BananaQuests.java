@@ -115,16 +115,19 @@ public final class BananaQuests extends JavaPlugin {
         YamlConfiguration playerConfig = new YamlConfiguration();
 
         final ArrayList<String> finishedIDS = new ArrayList<>();
-        for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
-            if (activeQuest.isFinished()) {
-                finishedIDS.add(activeQuest.getId());
-                playerConfig.set("active." + activeQuest.getId(), null);
-            }
-            else {
-                playerConfig.set("active." + activeQuest.getId() + ".stage", activeQuest.getStage());
-                for (int i = 0; i < activeQuest.getCurrentObjectives().size(); i++) {
-                    int objectiveID = i+1;
-                    playerConfig.set("active." + activeQuest.getId() + ".objectives-progress." + objectiveID, activeQuest.getCurrentObjectives().get(i).getProgress());
+
+        if (activeQuestsMap.get(player) != null) {
+            for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
+                if (activeQuest.isFinished()) {
+                    finishedIDS.add(activeQuest.getId());
+                    playerConfig.set("active." + activeQuest.getId(), null);
+                }
+                else {
+                    playerConfig.set("active." + activeQuest.getId() + ".stage", activeQuest.getStage());
+                    for (int i = 0; i < activeQuest.getCurrentObjectives().size(); i++) {
+                        int objectiveID = i+1;
+                        playerConfig.set("active." + activeQuest.getId() + ".objectives-progress." + objectiveID, activeQuest.getCurrentObjectives().get(i).getProgress());
+                    }
                 }
             }
         }
@@ -239,7 +242,7 @@ public final class BananaQuests extends JavaPlugin {
         }
 
         for (String questID : allQuestIDs) {
-            unstartedQuests.add(new UnstartedQuest(questID, questConfigs.get(questID).getString("display"), questConfigs.get(questID).getString("hint")));
+            unstartedQuests.add(new UnstartedQuest(questID, questConfigs.get(questID).getString("display"), questConfigs.get(questID).getString("hint"), questConfigs.get(questID).getInt("startNPCid", -1), questConfigs.get(questID).getInt("level", -1)));
         }
 
         unstartedQuestsMap.put(player, unstartedQuests);
@@ -271,21 +274,27 @@ public final class BananaQuests extends JavaPlugin {
 
     public static ArrayList<ActiveQuest> getOngoingQuests(Player player) {
         ArrayList<ActiveQuest> toReturn = new ArrayList<>();
-        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
-            if (!(activeQuest.isFinished())) {
-                toReturn.add(activeQuest);
+        if (activeQuestsMap.get(player) != null) {
+            for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
+                if (!(activeQuest.isFinished())) {
+                    toReturn.add(activeQuest);
+                }
             }
         }
+
         return toReturn;
     }
 
     public static ArrayList<ActiveQuest> getFinishedQuests(Player player) {
         ArrayList<ActiveQuest> toReturn = new ArrayList<>();
-        for (ActiveQuest activeQuest : BananaQuests.activeQuestsMap.get(player)) {
-            if (activeQuest.isFinished()) {
-                toReturn.add(activeQuest);
+        if (activeQuestsMap.get(player) != null) {
+            for (ActiveQuest activeQuest : activeQuestsMap.get(player)) {
+                if (activeQuest.isFinished()) {
+                    toReturn.add(activeQuest);
+                }
             }
         }
+
         return toReturn;
     }
 
@@ -297,13 +306,20 @@ public final class BananaQuests extends JavaPlugin {
 
     }
 
+    private static void removeUnstartedQuest(String id, Player player) {
+        ArrayList<UnstartedQuest> unstartedQuests = unstartedQuestsMap.get(player);
+        if (unstartedQuests != null) {
+            unstartedQuests.removeIf(activeQuest -> activeQuest.getId().equalsIgnoreCase(id));
+        }
+    }
+
     public static void beginQuest(String id, Player player) {
         if (!validQuestIDs.contains(id)) {
             player.sendMessage("");
             player.sendMessage(ChatColor.RED + "FATÁLNÍ CHYBA: Plugin se ti pokusil odstartovat neexistujicí Quest. Napiš to adminovi společně s aktuálním časem.");
             return;
         }
-        ArrayList<ActiveQuest> questList = activeQuestsMap.get(player);
+        ArrayList<ActiveQuest> questList = activeQuestsMap.computeIfAbsent(player, k -> new ArrayList<>());
         for (ActiveQuest activeQuest : questList) {
             if (activeQuest.getId().equalsIgnoreCase(id)) {
                 player.playSound(player, Sound.ENTITY_VILLAGER_NO, 1, 1);
@@ -313,6 +329,7 @@ public final class BananaQuests extends JavaPlugin {
             }
         }
 
+
         ActiveQuest newQuest = new ActiveQuest(id, player, 1, new ArrayList<>(), false);
         questList.add(newQuest);
         player.sendMessage("");
@@ -320,6 +337,7 @@ public final class BananaQuests extends JavaPlugin {
         player.sendMessage(ChatColor.DARK_GREEN + "Začal jsi nový Quest " + ChatColor.GOLD + newQuest.getDisplay());
         activeQuestsMap.put(player, questList);
         trackQuest(player, newQuest);
+        removeUnstartedQuest(id, player);
     }
 
     public static void trackNewQuest(Player player) {
